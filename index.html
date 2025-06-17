@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balo TV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: black;
+    }
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <iframe 
+      id="videoFrame"
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    const programs = [
+      {
+        title: "Overnight Playlist",
+        startHour: 0,
+        endHour: 5,
+        playlist: "PL8W_paC7-AOvTL0ZF6iSiZhYxpjV1uVGD"
+      },
+      {
+        title: "Morning Prayer",
+        startHour: 5,
+        endHour: 7,
+        playlist: "PL8W_paC7-AOvQSWZPc_uM4RyOHylSsYO_"
+      },
+      {
+        title: "Morning Cartoons",
+        startHour: 7,
+        endHour: 12,
+        playlist: "PL8W_paC7-AOuHLHtxjVGMRaeEVFdqpoix"
+      },
+      {
+        title: "Interviews",
+        startHour: 12,
+        endHour: 18,
+        playlist: "PL8W_paC7-AOtTlt5kzJXexdirvM5HGIHf"
+      },
+      {
+        title: "Music Videos",
+        startHour: 18,
+        endHour: 24,
+        playlist: "PL8W_paC7-AOs-YVLrcN1rw_MhozUIoESZ"
+      }
+    ];
+
+    function getCurrentProgram() {
+      const now = new Date();
+      const hour = now.getHours();
+      return programs.find(p => hour >= p.startHour && hour < p.endHour);
+    }
+
+    function loadProgram() {
+      const program = getCurrentProgram();
+      const iframe = document.getElementById("videoFrame");
+      iframe.src = `https://www.youtube.com/embed/videoseries?list=${program.playlist}&autoplay=1&loop=1&shuffle=1&mute=0`;
+    }
+
+    window.onload = loadProgram;
+  </script>
+</body>
+</html>
