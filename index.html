@@ -1,59 +1,95 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Balo TV - Fullscreen</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balo TV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: black;
+      width: 100%;
+      overflow: hidden;
+      background-color: black;
+      touch-action: none;
     }
-    #videoFrame {
-      border: none;
-      width: 100vw;
-      height: 100vh;
-    }
-    #rotate-message {
-      display: none;
+    .video-container {
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
+      bottom: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.6); /* semi-transparent */
-      color: white;
-      font-size: 1.5em;
-      text-align: center;
-      padding-top: 40%;
-      z-index: 9999;
+      background-color: black;
+    }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div id="rotate-message">🔄 Please rotate your phone for a better viewing experience.</div>
-  <iframe 
-    id="videoFrame"
-    src="https://www.youtube.com/embed/videoseries?list=PL8W_paC7-AOvTL0ZF6iSiZhYxpjV1uVGD&autoplay=1&loop=1&shuffle=1&mute=0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
+  <div class="video-container">
+    <iframe 
+      id="videoFrame"
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <script>
-    function checkOrientation() {
-      const rotateMsg = document.getElementById("rotate-message");
-      if (window.innerHeight > window.innerWidth) {
-        rotateMsg.style.display = "block"; // Portrait
-      } else {
-        rotateMsg.style.display = "none"; // Landscape
+    const programs = [
+      {
+        title: "Overnight Playlist",
+        startHour: 0,
+        endHour: 5,
+        playlist: "PL8W_paC7-AOvTL0ZF6iSiZhYxpjV1uVGD"
+      },
+      {
+        title: "Morning Prayer",
+        startHour: 5,
+        endHour: 7,
+        playlist: "PL8W_paC7-AOvQSWZPc_uM4RyOHylSsYO_"
+      },
+      {
+        title: "Morning Cartoons",
+        startHour: 7,
+        endHour: 12,
+        playlist: "PL8W_paC7-AOuHLHtxjVGMRaeEVFdqpoix"
+      },
+      {
+        title: "Interviews",
+        startHour: 12,
+        endHour: 18,
+        playlist: "PL8W_paC7-AOtTlt5kzJXexdirvM5HGIHf"
+      },
+      {
+        title: "Music Videos",
+        startHour: 18,
+        endHour: 24,
+        playlist: "PL8W_paC7-AOs-YVLrcN1rw_MhozUIoESZ"
       }
+    ];
+
+    function getCurrentProgram() {
+      const now = new Date();
+      const hour = now.getHours();
+      return programs.find(p => hour >= p.startHour && hour < p.endHour);
     }
 
-    window.addEventListener("resize", checkOrientation);
-    window.addEventListener("orientationchange", checkOrientation);
-    window.onload = checkOrientation;
+    function loadProgram() {
+      const program = getCurrentProgram();
+      const iframe = document.getElementById("videoFrame");
+      iframe.src = `https://www.youtube.com/embed/videoseries?list=${program.playlist}&autoplay=1&loop=1&shuffle=1&mute=0`;
+    }
+
+    window.onload = loadProgram;
   </script>
 </body>
 </html>
