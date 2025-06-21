@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BaloTV - Talkshows</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+    }
+    #videoFrame {
+      border: none;
+      width: 100vw;
+      height: 100vh;
+    }
+    #rotate-message {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 1.5em;
+      text-align: center;
+      padding-top: 40%;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="rotate-message">🔄 Please rotate your phone for a better viewing experience.</div>
+  <iframe 
+    id="videoFrame"
+    src="https://www.youtube.com/embed/videoseries?list=PL8W_paC7-AOtTlt5kzJXexdirvM5HGIHf&autoplay=1&loop=1&shuffle=1&mute=0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+  <script>
+    function checkOrientation() {
+      const rotateMsg = document.getElementById("rotate-message");
+      if (window.innerHeight > window.innerWidth) {
+        rotateMsg.style.display = "block";
+      } else {
+        rotateMsg.style.display = "none";
+      }
+    }
+    window.addEventListener("resize", checkOrientation);
+    window.addEventListener("orientationchange", checkOrientation);
+    window.onload = checkOrientation;
+  </script>
+</body>
+</html>
