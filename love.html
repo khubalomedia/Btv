@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>❤️ Love Songs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header><h1>❤️ Love Songs</h1></header>
+<img src="images/trap.jpg" alt="❤️ Love Songs" class="banner">
+<main>
+
+<ul class="songlist">
+    <li>
+        <div class="song-info">
+            <img src="images/love.jpg" alt="Cover" class="cover-art">
+
+            <div class="song-details">
+                <div class="song-title"><strong>I Want Love</strong></div>
+
+            <div class="stats">
+                Likes: <span class="like-count">0</span> |
+                Dislikes: <span class="dislike-count">0</span> |
+                Downloads: <span class="download-count">0</span>
+            </div>
+        </div>
+        <div class="song-actions">
+            <button onclick="like(this)">👍</button>
+            <button onclick="dislike(this)">👎</button>
+          <a href='https://drive.google.com/uc?export=download&id=1-IKh3IJU6b54s_7XDyH3LOwlMn-Z4BIE' download='I Want Love.mp3'>Download</a>
+        </div>
+    </li>
+</ul>
+
+<ul class="songlist">
+    <li>
+        <div class="song-info">
+            <img src="images/love.jpg" alt="Cover" class="cover-art">
+
+            <div class="song-details">
+                <div class="song-title"><strong>Me2</div></strong>
+            
+            <div class="stats">
+                Likes: <span class="like-count">0</span> |
+                Dislikes: <span class="dislike-count">0</span> |
+                Downloads: <span class="download-count">0</span>
+            </div>
+        </div>
+        <div class="song-actions">
+            <button onclick="like(this)">👍</button>
+            <button onclick="dislike(this)">👎</button>
+          <a href='https://drive.google.com/file/d/1-Jn3NVI4Gdoo_-CqUxORW5RouoBh31Zk/view?usp=drivesdk' download='Me2.mp3'>Download</a>
+        </div>
+    </li>
+</ul>
+
+<ul class="songlist">
+    <li>
+        <div class="song-info">
+            <img src="images/love.jpg" alt="Cover" class="cover-art">
+
+            <div class="song-details">
+                <div class="song-title"><strong>Friend Zone</div></strong>
+            
+            <div class="stats">
+                Likes: <span class="like-count">0</span> |
+                Dislikes: <span class="dislike-count">0</span> |
+                Downloads: <span class="download-count">0</span>
+            </div>
+        </div>
+        <div class="song-actions">
+            <button onclick="like(this)">👍</button>
+            <button onclick="dislike(this)">👎</button>
+          <a href='https://drive.google.com/file/d/1-Ooj-hQJJ4uxC-Krgxm0l3nLodK8MGN3/view?usp=drivesdk' download='Friend Zone.mp3'>Download</a>
+        </div>
+    </li>
+</ul>
+
+<ul class="songlist">
+    <li>
+        <div class="song-info">
+            <img src="images/love.jpg" alt="Cover" class="cover-art">
+
+            <div class="song-details">
+                <div class="song-title"><strong>Stay With Me</div></strong>
+
+            <div class="stats">
+                Likes: <span class="like-count">0</span> |
+                Dislikes: <span class="dislike-count">0</span> |
+                Downloads: <span class="download-count">0</span>
+            </div>
+        </div>
+        <div class="song-actions">
+            <button onclick="like(this)">👍</button>
+            <button onclick="dislike(this)">👎</button>
+          <a href='https://drive.google.com/file/d/1-RsMecmYA-okxy-_8JFIrSln5cUppT4e/view?usp=drivesdk' download='Stay With Me.mp3'>Download</a>
+        </div>
+    </li>
+</ul>
+
+<nav>
+<a href="index.html">&laquo; Back</a> | <a href="trap.html">Next &raquo;</a>
+</nav>
+
+</main>
+
+<footer><p>&copy; 2025 Lity Rate Music</p></footer>
+
+<script>
+    function like(btn) {
+        const count = btn.parentElement.parentElement.querySelector('.like-count');
+        count.textContent = parseInt(count.textContent) + 1;
+    }
+    function dislike(btn) {
+        const count = btn.parentElement.parentElement.querySelector('.dislike-count');
+        count.textContent = parseInt(count.textContent) + 1;
+    }
+    function download(btn) {
+        const count = btn.parentElement.parentElement.querySelector('.download-count');
+        count.textContent = parseInt(count.textContent) + 1;
+    }
+    </script>    
+
+</body>
+</html>

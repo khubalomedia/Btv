@@ -1,104 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BaloTV - Choose Channel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background: black;
-      color: white;
-      text-align: center;
-    }
-    h1 {
-      padding-top: 1em;
-      font-size: 2em;
-    }
-    .description, .description-zu {
-      font-size: 1em;
-      margin: 0.5em 2em 1em 2em;
-      color: #ccc;
-    }
-    .description-zu {
-      display: none;
-    }
-    .channel {
-      margin: 1em auto;
-      padding: 1em;
-      background: #222;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-    }
-    a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.2em;
-      display: block;
-      margin-bottom: 0.3em;
-    }
-    p.channel-description {
-      font-size: 0.9em;
-      color: #aaa;
-      margin: 0;
-    }
-    .lang-btn {
-      margin: 1em;
-      padding: 0.5em 1em;
-      background: #444;
-      color: white;
-      border: none;
-      font-size: 1em;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Lity Rate Music Hub</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎬 BaloTV</h1>
-  <button class="lang-btn" onclick="switchLanguage()">Switch to isiZulu</button>
-  <p class="description" id="desc-en">Welcome to BaloTV – a free online TV station bringing you cartoons, talk shows, and music for the culture. Stream your vibe, anytime, anywhere.</p>
-  <p class="description-zu" id="desc-zu">Siyakwamukela ku-BaloTV – ithelevishini yakwa-inthanethi yamahhala ekuletha amahlaya, izingxoxo, nomculo. Bukela noma nini, noma kuphi!</p>
-
-  <div class="channel">
-    <a href="cartoons.html">📺 Channel 1: Cartoons</a>
-    <p class="channel-description" id="cartoons-en">Fun and exciting cartoons for all ages.</p>
-    <p class="channel-description" id="cartoons-zu" style="display: none;">Amabhayisikobho ajabulisayo wezingane nezikhulu.</p>
-  </div>
-
-  <div class="channel">
-    <a href="talkshows.html">🎤 Channel 2: Talk Shows</a>
-    <p class="channel-description" id="talkshows-en">Engaging conversations, interviews, and stories.</p>
-    <p class="channel-description" id="talkshows-zu" style="display: none;">Izingxoxo ezimnandi, izivakashi ezikhethekile nezindaba zomphakathi.</p>
-  </div>
-
-  <div class="channel">
-    <a href="music.html">🎶 Channel 3: Music</a>
-    <p class="channel-description" id="music-en">Non-stop hits from your favorite genres.</p>
-    <p class="channel-description" id="music-zu" style="display: none;">Umculo ongapheli ovela kubaculi abahlukene.</p>
-  </div>
-
-  <script>
-    let isZulu = false;
-    function switchLanguage() {
-      isZulu = !isZulu;
-      document.getElementById('desc-en').style.display = isZulu ? 'none' : 'block';
-      document.getElementById('desc-zu').style.display = isZulu ? 'block' : 'none';
-
-      document.getElementById('cartoons-en').style.display = isZulu ? 'none' : 'block';
-      document.getElementById('cartoons-zu').style.display = isZulu ? 'block' : 'none';
-
-      document.getElementById('talkshows-en').style.display = isZulu ? 'none' : 'block';
-      document.getElementById('talkshows-zu').style.display = isZulu ? 'block' : 'none';
-
-      document.getElementById('music-en').style.display = isZulu ? 'none' : 'block';
-      document.getElementById('music-zu').style.display = isZulu ? 'block' : 'none';
-
-      document.querySelector('.lang-btn').innerText = isZulu ? 'Switch to English' : 'Switch to isiZulu';
-    }
-  </script>
+<header><h1>Lity Rate 🎤</h1></header>
+<section class="bio">
+<h2>About Lity Rate</h2>
+<p>Lity Rate blends Trap, Love, and Sad music, voicing struggles and dreams of South African youth. His songs connect from KZN to global stages.</p>
+</section>
+<main>
+<h2>Explore Categories:</h2>
+<ul class="categories">
+<li><a href="love.html">❤️ Love Songs</a></li>
+<li><a href="trap.html">🔥 Trap Songs</a></li>
+<li><a href="sad.html">💔 Sad Songs</a></li>
+</ul>
+</main>
+<footer><p>&copy; 2025 Lity Rate Music</p></footer>
 </body>
 </html>
