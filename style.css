@@ -134,11 +134,11 @@ footer {
 }
 
 .song-actions button, .song-actions a {
-  background: crimson;
+  background: rgb(12, 12, 12);
   color: #fff;
-  padding: 6px 12px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
