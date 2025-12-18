@@ -1,23 +1,24 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #ece9e6, #ffffff);
+  font-family: Baloo;
+  background: linear-gradient(to right, #0c5b39, #0c5b39);
   color: #333;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background: #222;
-  color: #fff;
+  background: #131313;
+  color: #1bbf78;
   padding: 10px;
   text-align: match-parent;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-size: 50px;
 }
 
 h1 { margin: 0; font-size: 2em; }
 
 .bio, main {
-  padding: 20px;
+  padding: 10px;
   max-width: 900px;
   margin: auto;
 }
@@ -28,12 +29,12 @@ h1 { margin: 0; font-size: 2em; }
 }
 
 .categories li, .songlist li {
-  background: #fff;
+  background: #1bbf78;
   margin: 10px 0;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 30px;
+  border-radius: 32px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  transition: transform 0.4s;
   display: flex;
   justify-content: space-between;
   align-items: match-parent;
@@ -46,13 +47,13 @@ h1 { margin: 0; font-size: 2em; }
 
 .categories a, .songlist a {
   text-decoration: none;
-  color: #fff;
-  background: crimson;
-  padding: 8px 15px;
-  border-radius: 5px;
+  color: #1bbf78;
+  background: rgb(22, 22, 22);
+  padding: 8px px;
+  border-radius: 10px;
   font-weight: bold;
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .banner {
@@ -101,8 +102,8 @@ footer {
 }
 
 .cover-art {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -120,7 +121,7 @@ footer {
 
 .stats {
   font-size: 0.9em;
-  color: #555;
+  color: #ff0000;
   margin-top: 5px;
   display: flex;
   gap: 20px;
@@ -135,10 +136,10 @@ footer {
 
 .song-actions button, .song-actions a {
   background: rgb(12, 12, 12);
-  color: #fff;
-  padding: 12px 24px;
+  color: #1bbf78;
+  padding: 7px 19px;
   border: none;
-  border-radius: 10px;
+  border-radius: 50px;
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
@@ -146,4 +147,27 @@ footer {
 
 .song-actions button:hover, .song-actions a:hover {
   background: #222;
+}
+
+h3 {
+  font-family: 'Segoe UI', sans-serif;
+  text-align:center;
+  font-size: 30px;
+  color: aliceblue;
+}
+
+h1{
+  font-size: 50px;
+  color: aliceblue;
+}
+
+h2{
+  font-size: 30px;
+}
+
+h4{
+  font-family: Bungee Inline;
+  font-size: 30px;
+  color: #e1e1e1;
+  
 }
