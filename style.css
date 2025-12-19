@@ -1,6 +1,6 @@
 body {
   font-family: Baloo;
-  background: linear-gradient(to right, #0c5b39, #0c5b39);
+  background: linear-gradient(to right, #ffffff, #ffffff);
   color: #333;
   margin: 0;
   padding: 0;
@@ -153,12 +153,12 @@ h3 {
   font-family: 'Segoe UI', sans-serif;
   text-align:center;
   font-size: 30px;
-  color: aliceblue;
+  color: rgb(21, 21, 21);
 }
 
 h1{
   font-size: 50px;
-  color: aliceblue;
+  color: rgb(21, 21, 21);
 }
 
 h2{
@@ -168,6 +168,10 @@ h2{
 h4{
   font-family: Bungee Inline;
   font-size: 30px;
-  color: #e1e1e1;
+  color: #0b0b0b;
   
+}
+
+p{
+  font-size: 30px;
 }
