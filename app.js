@@ -9,6 +9,10 @@ const playlists = {
   music: "PL8W_paC7-AOvTL0ZF6iSiZhYxpjV1uVGD"
 };
 
+
+
+
+
 // LOAD EVERYTHING
 function loadAll() {
   loadPlaylist(playlists.talk, "row-talk");
@@ -56,7 +60,7 @@ function displayVideos(videos, rowId) {
 
       localStorage.setItem("lastVideo", JSON.stringify(videoData));
 
-      window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
+      playVideo(data.id);
     };
 
     row.appendChild(card);
@@ -88,3 +92,15 @@ function loadContinueWatching() {
 
 // INIT
 loadAll();
+
+
+function playVideo(videoId) {
+  const player = document.getElementById("video-player");
+
+  player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+  // Optional: scroll to player
+  document.getElementById("player-section").scrollIntoView({
+    behavior: "smooth"
+  });
+}
