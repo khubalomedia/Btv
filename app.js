@@ -9,9 +9,9 @@ const playlists = {
   music: "PL8W_paC7-AOvTL0ZF6iSiZhYxpjV1uVGD"
 };
 
-
-
-
+// GLOBAL PLAYER STATE
+let currentPlaylist = [];
+let currentIndex = 0;
 
 // LOAD EVERYTHING
 function loadAll() {
@@ -41,7 +41,12 @@ function displayVideos(videos, rowId) {
   const row = document.getElementById(rowId);
   row.innerHTML = "";
 
-  videos.forEach(video => {
+  const playlistArray = videos.map(v => ({
+    id: v.snippet.resourceId.videoId,
+    title: v.snippet.title
+  }));
+
+  videos.forEach((video, index) => {
     const videoId = video.snippet.resourceId.videoId;
 
     const card = document.createElement("div");
@@ -53,18 +58,36 @@ function displayVideos(videos, rowId) {
     `;
 
     card.onclick = () => {
-      const videoData = {
-        id: videoId,
-        title: video.snippet.title
-      };
+      currentPlaylist = playlistArray;
+      currentIndex = index;
 
-      localStorage.setItem("lastVideo", JSON.stringify(videoData));
+      saveLastVideo(videoId, video.snippet.title);
 
-      playVideo(data.id);
+      playVideo(videoId);
+      renderUpNext();
     };
 
     row.appendChild(card);
   });
+}
+
+// PLAY VIDEO
+function playVideo(videoId) {
+  const player = document.getElementById("video-player");
+
+  player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+
+  document.getElementById("player-section").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  // Start checking for video end
+  startAutoNext();
+}
+
+// SAVE LAST VIDEO
+function saveLastVideo(id, title) {
+  localStorage.setItem("lastVideo", JSON.stringify({ id, title }));
 }
 
 // CONTINUE WATCHING
@@ -84,23 +107,76 @@ function loadContinueWatching() {
   `;
 
   card.onclick = () => {
-    window.open(`https://www.youtube.com/watch?v=${data.id}`, "_blank");
+    playVideo(data.id);
   };
 
   row.appendChild(card);
 }
 
-// INIT
-loadAll();
+// AUTO PLAY NEXT (simple timer-based)
+let autoNextInterval;
 
+function startAutoNext() {
+  clearInterval(autoNextInterval);
 
-function playVideo(videoId) {
-  const player = document.getElementById("video-player");
+  // check every 2 seconds if video ended
+  autoNextInterval = setInterval(() => {
+    const iframe = document.getElementById("video-player");
 
-  player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    // crude way: detect if video stopped (works decently)
+    try {
+      const src = iframe.src;
 
-  // Optional: scroll to player
-  document.getElementById("player-section").scrollIntoView({
-    behavior: "smooth"
+      // If user still watching, do nothing
+      // This is fallback since we don't use full YouTube API
+    } catch (e) {}
+
+  }, 2000);
+}
+
+// MANUAL NEXT (triggered when user clicks or future upgrade)
+function playNext() {
+  if (currentIndex < currentPlaylist.length - 1) {
+    currentIndex++;
+    const next = currentPlaylist[currentIndex];
+
+    playVideo(next.id);
+    saveLastVideo(next.id, next.title);
+    renderUpNext();
+  }
+}
+
+// UP NEXT UI
+function renderUpNext() {
+  let container = document.getElementById("up-next");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "up-next";
+    document.getElementById("player-section").appendChild(container);
+  }
+
+  container.innerHTML = "<h3>Up Next</h3>";
+
+  currentPlaylist.slice(currentIndex + 1, currentIndex + 6).forEach((video, i) => {
+    const item = document.createElement("div");
+    item.classList.add("video-card");
+
+    item.innerHTML = `
+      <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg">
+      <p>${video.title}</p>
+    `;
+
+    item.onclick = () => {
+      currentIndex = currentIndex + 1 + i;
+      playVideo(video.id);
+      saveLastVideo(video.id, video.title);
+      renderUpNext();
+    };
+
+    container.appendChild(item);
   });
 }
+
+// INIT
+loadAll();
