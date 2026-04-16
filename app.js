@@ -74,6 +74,10 @@ function displayVideos(videos, rowId) {
 // PLAY VIDEO
 function playVideo(videoId) {
   const player = document.getElementById("video-player");
+  const section = document.getElementById("player-section");
+
+  // Show player
+  section.style.display = "block";
 
   player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
 
