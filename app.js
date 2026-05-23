@@ -61,6 +61,11 @@ async function loadPlaylist(id, rowId) {
 
 }
 
+/* GLOBAL PLAYER STATE */
+
+let currentPlaylist = [];
+let currentIndex = 0;
+
 /* DISPLAY VIDEOS */
 
 function displayVideos(videos, rowId) {
@@ -69,23 +74,49 @@ function displayVideos(videos, rowId) {
 
   row.innerHTML = "";
 
-  videos.forEach(video => {
+  videos.forEach((video, index) => {
 
-    
-if (!video.snippet || !video.snippet.resourceId) return;
+    if (
+      !video.snippet ||
+      !video.snippet.resourceId
+    ) return;
 
-const videoId = video.snippet.resourceId.videoId;
+    const videoId =
+      video.snippet.resourceId.videoId;
 
-    const card = document.createElement("div");
+    const shortTitle =
+      video.snippet.title.length > 50
+        ? video.snippet.title.slice(0, 50) + "..."
+        : video.snippet.title;
+
+    const card =
+      document.createElement("div");
 
     card.className = "video-card";
 
     card.innerHTML = `
-      <img src="${video.snippet.thumbnails.medium.url}">
-      <p>${video.snippet.title}</p>
+
+      <img
+        src="${video.snippet.thumbnails.medium.url}"
+      >
+
+      <div class="video-card-content">
+
+        <h4>${shortTitle}</h4>
+
+      </div>
+
     `;
 
+    /* CLICK VIDEO */
+
     card.onclick = () => {
+
+      /* CREATE QUEUE FROM CURRENT CATEGORY */
+
+      currentPlaylist = videos;
+
+      currentIndex = index;
 
       playVideo(
         videoId,
@@ -93,10 +124,7 @@ const videoId = video.snippet.resourceId.videoId;
         video.snippet.description
       );
 
-      saveLastVideo(
-        videoId,
-        video.snippet.title
-      );
+      updateUpNext();
 
     };
 
@@ -130,7 +158,74 @@ function playVideo(videoId, title = "", description = "") {
 }
 
 
-/* NEXT */
+/* UP NEXT QUEUE */
+
+function updateUpNext(){
+
+  const row =
+    document.getElementById("up-next-row");
+
+  if(!row) return;
+
+  row.innerHTML = "";
+
+  const nextVideos =
+    currentPlaylist.slice(
+      currentIndex + 1,
+      currentIndex + 8
+    );
+
+  nextVideos.forEach((video, index) => {
+
+    const videoId =
+      video.snippet.resourceId.videoId;
+
+    const card =
+      document.createElement("div");
+
+    card.className = "video-card";
+
+    card.innerHTML = `
+
+      <img
+        src="${video.snippet.thumbnails.medium.url}"
+      >
+
+      <div class="video-card-content">
+
+        <h4>
+          ${video.snippet.title.slice(0, 45)}
+        </h4>
+
+      </div>
+
+    `;
+
+    card.onclick = () => {
+
+      currentIndex =
+        currentIndex + index + 1;
+
+      playVideo(
+        videoId,
+        video.snippet.title,
+        video.snippet.description
+      );
+
+      updateUpNext();
+
+    };
+
+    row.appendChild(card);
+
+  });
+
+}
+
+
+
+
+/* NEXT VIDEO */
 
 function playNext(){
 
@@ -153,11 +248,14 @@ function playNext(){
       nextVideo.snippet.description
     );
 
+    updateUpNext();
+
   }
 
 }
 
-/* PREVIOUS */
+
+/* PREVIOUS VIDEO */
 
 function playPrevious(){
 
@@ -176,6 +274,8 @@ function playPrevious(){
       prevVideo.snippet.title,
       prevVideo.snippet.description
     );
+
+    updateUpNext();
 
   }
 
@@ -204,36 +304,7 @@ function saveLastVideo(id, title) {
 
 }
 
-/* CONTINUE */
 
-function loadContinueWatching() {
-
-  const data =
-    JSON.parse(localStorage.getItem("lastVideo"));
-
-  if (!data) return;
-
-  const row =
-    document.getElementById("row-continue");
-
-  row.innerHTML = "";
-
-  const card = document.createElement("div");
-
-  card.className = "video-card";
-
-  card.innerHTML = `
-    <img src="https://img.youtube.com/vi/${data.id}/mqdefault.jpg">
-    <p>${data.title}</p>
-  `;
-
-  card.onclick = () => {
-    playVideo(data.id);
-  };
-
-  row.appendChild(card);
-
-}
 
 /* CATEGORY SWITCHING */
 
