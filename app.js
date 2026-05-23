@@ -443,7 +443,7 @@ document
 
 loadAll();
 
-
+loadLastPlayedVideo();
 
 
 
