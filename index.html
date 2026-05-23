@@ -3,334 +3,400 @@
 
 <head>
 
-<meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>BaloTV</title>
+  <title>BaloTV</title>
 
-<link rel="stylesheet"
-href="styles.css">
+  <!-- CSS -->
 
-<link rel="manifest"
-href="/manifest.json">
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 
-<meta name="theme-color"
-content="#000000">
+  <!-- PWA -->
+
+  <link
+    rel="manifest"
+    href="/manifest.json"
+  >
+
+  <meta
+    name="theme-color"
+    content="#000000"
+  >
+
+  <!-- FIREBASE -->
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
 </head>
 
 <body>
 
-<!-- TOPBAR -->
+  <!-- TOPBAR -->
 
-<header class="topbar">
+  <header class="topbar">
 
-  <!-- HAMBURGER -->
+    <div class="left-top">
 
-  <div class="menu-btn"
-  onclick="toggleMenu()">
+      <!-- MENU BUTTON -->
 
-    <span></span>
-    <span></span>
-    <span></span>
+      <div
+        class="menu-btn"
+        id="menuBtn"
+      >
 
-  </div>
+        <span></span>
+        <span></span>
+        <span></span>
 
-  <!-- MENU -->
+      </div>
 
-  <div class="dropdown-menu"
-  id="dropdownMenu">
+      <!-- LOGO -->
 
-    <a href="index.html">
+      <div class="logo">
+
+        <img
+          src="balotv-logo.png"
+          alt="BaloTV Logo"
+        >
+
+      </div>
+
+    </div>
+
+    <!-- SEARCH -->
+
+    <div class="top-right">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search videos..."
+      >
+
+    </div>
+
+  </header>
+
+  <!-- DROPDOWN MENU -->
+
+  <div
+    class="dropdown-menu"
+    id="dropdownMenu"
+  >
+
+    <a href="#">
       Home
     </a>
 
-    <a href="about.html">
-      Why BaloTV
+    <a href="#">
+      Trending
     </a>
 
-    <a href="terms.html">
-      Terms
+    <a href="#">
+      My List
+    </a>
+
+    <a href="#">
+      Settings
     </a>
 
   </div>
 
-  <!-- LOGO -->
+  <!-- MOBILE CATEGORY ROW -->
 
-  <div class="logo">
-
-    <img src="balotv-logo.png"
-    alt="BaloTV">
-
-  </div>
-
-  <!-- SEARCH -->
-
-  <div class="top-right">
-
-    <input
-      type="text"
-      placeholder="Search..."
-      id="searchInput"
-    >
-
-  </div>
-
-</header>
-
-<!-- LAYOUT -->
-
-<div class="layout">
-
-  <!-- SIDEBAR -->
-
-  <aside class="sidebar">
-
-    <h3>Categories</h3>
+  <div class="mobile-categories">
 
     <button
       class="category-btn active"
-      data-category="home">
-
+      data-category="home"
+    >
       Home
-
     </button>
 
     <button
       class="category-btn"
-      data-category="talk">
-
-      Talk Shows
-
+      data-category="talk"
+    >
+      Talk
     </button>
 
     <button
       class="category-btn"
-      data-category="cartoons">
-
+      data-category="cartoons"
+    >
       Cartoons
-
     </button>
 
     <button
       class="category-btn"
-      data-category="musicvideos">
-
-      Music Videos
-
+      data-category="musicvideos"
+    >
+      Music
     </button>
 
-  </aside>
+  </div>
 
-  <!-- MAIN -->
+  <!-- MAIN LAYOUT -->
 
-  <main class="content">
+  <div class="layout">
 
-    <!-- PLAYER SECTION -->
+    <!-- SIDEBAR -->
 
-    <section id="player-section">
+    <aside class="sidebar">
 
-      <!-- PLAYER WRAPPER -->
+      <h3>Browse</h3>
 
-      <div class="player-wrapper">
+      <button
+        class="category-btn active"
+        data-category="home"
+      >
+        Home
+      </button>
 
-        <!-- THUMBNAIL -->
+      <button
+        class="category-btn"
+        data-category="talk"
+      >
+        Talk Shows
+      </button>
 
-        <div id="thumbnail-overlay">
+      <button
+        class="category-btn"
+        data-category="cartoons"
+      >
+        Cartoons
+      </button>
 
-          <img
-            id="thumbnail-image"
+      <button
+        class="category-btn"
+        data-category="musicvideos"
+      >
+        Music Videos
+      </button>
+
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+      <!-- PLAYER SECTION -->
+
+      <section class="player-section">
+
+        <div class="player-wrapper">
+
+          <iframe
+            id="video-player"
             src=""
-          >
+            allowfullscreen
+            allow="autoplay"
+          ></iframe>
 
-          <button
-            id="play-overlay-btn">
+        </div>
 
-            ▶ PLAY
+        <!-- VIDEO INFO -->
 
+        <div class="video-info">
+
+          <h1 id="video-title">
+            Welcome to BaloTV
+          </h1>
+
+          <p id="video-description">
+            Select any video to start watching.
+          </p>
+
+        </div>
+
+        <!-- PLAYER CONTROLS -->
+
+        <div class="player-controls">
+
+          <button id="prevBtn">
+            ⏮ Previous
+          </button>
+
+          <button id="nextBtn">
+            Next ⏭
           </button>
 
         </div>
 
-        <!-- PLAYER -->
+      </section>
 
-        <iframe
-          id="video-player"
-          src=""
-          allowfullscreen
-          allow="autoplay">
+      <!-- UP NEXT -->
 
-        </iframe>
+      <section class="section">
 
-      </div>
+        <div class="section-title">
 
-      <!-- CONTROLS -->
+          <h2>Up Next</h2>
 
-      <div class="player-controls">
+        </div>
 
-        <button id="prevBtn">
+        <div
+          id="up-next-row"
+          class="video-row"
+        ></div>
 
-          ⏮ Previous
-
-        </button>
-
-        <button id="nextBtn">
-
-          Next ⏭
-
-        </button>
-
-      </div>
-
-      <!-- VIDEO INFO -->
-
-      <div class="video-info">
-
-        <h1 id="video-title">
-
-          Select a video
-
-        </h1>
-
-        <p id="video-description">
-
-          Video description
-          will appear here.
-
-        </p>
-
-      </div>
+      </section>
 
       <!-- CONTINUE WATCHING -->
 
       <section class="section">
 
-        <h2>
-          Continue Watching
-        </h2>
+        <div class="section-title">
+
+          <h2>Continue Watching</h2>
+
+        </div>
 
         <div
           id="row-continue"
-          class="video-grid">
-
-        </div>
+          class="video-row"
+        ></div>
 
       </section>
 
-      <!-- MOST WATCHED -->
+      <!-- HOME -->
 
-      <section class="section">
+      <section
+        class="section category-section"
+        id="section-home"
+      >
 
-        <h2>
-          Most Watched
-        </h2>
+        <div class="section-title">
+
+          <h2>Home Videos</h2>
+
+        </div>
 
         <div
-          id="row-mostwatched"
-          class="video-grid">
-
-        </div>
+          id="row-home"
+          class="video-row"
+        ></div>
 
       </section>
 
-    </section>
+      <!-- TALK -->
 
-    <!-- HOME -->
+      <section
+        class="section category-section hidden"
+        id="section-talk"
+      >
 
-    <section
-      class="section category-section"
-      id="section-home">
+        <div class="section-title">
 
-      <h2>
-        Home Videos
+          <h2>Talk Shows</h2>
+
+        </div>
+
+        <div
+          id="row-talk"
+          class="video-row"
+        ></div>
+
+      </section>
+
+      <!-- CARTOONS -->
+
+      <section
+        class="section category-section hidden"
+        id="section-cartoons"
+      >
+
+        <div class="section-title">
+
+          <h2>Cartoons</h2>
+
+        </div>
+
+        <div
+          id="row-cartoons"
+          class="video-row"
+        ></div>
+
+      </section>
+
+      <!-- MUSIC VIDEOS -->
+
+      <section
+        class="section category-section hidden"
+        id="section-musicvideos"
+      >
+
+        <div class="section-title">
+
+          <h2>Music Videos</h2>
+
+        </div>
+
+        <div
+          id="row-musicvideos"
+          class="video-row"
+        ></div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- AUTH MODAL -->
+
+  <div
+    class="auth-modal hidden"
+    id="authModal"
+  >
+
+    <div class="auth-box">
+
+      <h2 id="authTitle">
+        Login
       </h2>
 
-      <div
-        id="row-home"
-        class="video-grid">
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+      >
 
-      </div>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
 
-    </section>
+      <button id="authSubmit">
+        Continue
+      </button>
 
-    <!-- TALK -->
+      <p id="switchAuth">
+        Don't have an account? Register
+      </p>
 
-    <section
-      class="section category-section hidden"
-      id="section-talk">
+      <p id="forgotPassword">
+        Forgot password?
+      </p>
 
-      <h2>
-        Talk Shows
-      </h2>
+    </div>
 
-      <div
-        id="row-talk"
-        class="video-grid">
+  </div>
 
-      </div>
+  <!-- APP JS -->
 
-    </section>
-
-    <!-- CARTOONS -->
-
-    <section
-      class="section category-section hidden"
-      id="section-cartoons">
-
-      <h2>
-        Cartoons
-      </h2>
-
-      <div
-        id="row-cartoons"
-        class="video-grid">
-
-      </div>
-
-    </section>
-
-    <!-- MUSIC VIDEOS -->
-
-    <section
-      class="section category-section hidden"
-      id="section-musicvideos">
-
-      <h2>
-        Music Videos
-      </h2>
-
-      <div
-        id="row-musicvideos"
-        class="video-grid">
-
-      </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-<!-- MENU SCRIPT -->
-
-<script>
-
-function toggleMenu(){
-
-  document
-    .getElementById("dropdownMenu")
-    .classList
-    .toggle("active");
-
-}
-
-</script>
-
-<!-- APP -->
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 
 </body>
 
