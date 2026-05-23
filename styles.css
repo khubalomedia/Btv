@@ -109,6 +109,60 @@ body {
   background: black;
 }
 
+
+/* PLAYER CONTROLS */
+
+.player-controls{
+  display:flex;
+  gap:15px;
+  margin:25px 0;
+}
+
+.control-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  background:#151515;
+
+  border:1px solid #2a2a2a;
+
+  color:white;
+
+  padding:14px 22px;
+
+  border-radius:14px;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.25s;
+}
+
+.control-btn:hover{
+  background:#ff1a1a;
+  border-color:#ff1a1a;
+
+  transform:translateY(-2px);
+}
+
+.control-btn span{
+  font-size:18px;
+}
+
+.control-btn.next{
+  background:#ff1a1a;
+}
+
+.control-btn.next:hover{
+  opacity:0.9;
+}
+
+
+
 /* SECTION */
 
 .section {

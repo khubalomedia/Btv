@@ -136,26 +136,81 @@ function displayVideos(videos, rowId) {
 
 /* PLAY VIDEO */
 
-function playVideo(videoId, title = "", description = "") {
+function playVideo(
+  videoId,
+  title = "",
+  description = ""
+){
 
   const player =
     document.getElementById("video-player");
 
   player.src =
-    `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
 
-  document.getElementById("video-title").innerText =
-    title;
+  /* SHORT DESCRIPTION */
 
-  document.getElementById("video-description").innerText =
-    description || "No description available.";
+  let shortDescription =
+    description;
+
+  if(description.length > 180){
+
+    shortDescription =
+      description.slice(0,180) + "...";
+
+  }
+
+  document.getElementById(
+    "video-title"
+  ).innerText = title;
+
+  document.getElementById(
+    "video-description"
+  ).innerText =
+    shortDescription ||
+    "No description available.";
+
+  /* SAVE LAST PLAYED VIDEO */
+
+  localStorage.setItem(
+    "lastPlayedVideo",
+    JSON.stringify({
+      videoId,
+      title,
+      description
+    })
+  );
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 
 }
+
+
+
+/* LOAD LAST PLAYED VIDEO */
+
+function loadLastPlayedVideo(){
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "lastPlayedVideo"
+      )
+    );
+
+  if(!saved) return;
+
+  playVideo(
+    saved.videoId,
+    saved.title,
+    saved.description
+  );
+
+}
+
 
 
 /* UP NEXT QUEUE */
@@ -368,6 +423,8 @@ document
 /* START */
 
 loadAll();
+
+loadLastPlayedVideo();
 
 
 
