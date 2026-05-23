@@ -69,19 +69,14 @@ function displayVideos(videos, rowId) {
 
   row.innerHTML = "";
 
-  const category =
-    rowId.replace("row-", "");
+  videos.forEach(video => {
 
-  videos.forEach((video, index) => {
+    
+if (!video.snippet || !video.snippet.resourceId) return;
 
-    if (!video.snippet || !video.snippet.resourceId)
-      return;
+const videoId = video.snippet.resourceId.videoId;
 
-    const videoId =
-      video.snippet.resourceId.videoId;
-
-    const card =
-      document.createElement("div");
+    const card = document.createElement("div");
 
     card.className = "video-card";
 
@@ -92,13 +87,7 @@ function displayVideos(videos, rowId) {
 
     card.onclick = () => {
 
-      currentPlaylist = videos;
-
-      currentIndex = index;
-
-      currentCategory = category;
-
-      showThumbnail(
+      playVideo(
         videoId,
         video.snippet.title,
         video.snippet.description
@@ -119,30 +108,23 @@ function displayVideos(videos, rowId) {
 
 /* PLAY VIDEO */
 
-function playVideo(
-  videoId,
-  title = "",
-  description = ""
-){
+function playVideo(videoId, title = "", description = "") {
 
   const player =
     document.getElementById("video-player");
 
   player.src =
-    `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+    `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
-  document.getElementById(
-    "video-title"
-  ).innerText = title;
+  document.getElementById("video-title").innerText =
+    title;
 
-  document.getElementById(
-    "video-description"
-  ).innerText =
+  document.getElementById("video-description").innerText =
     description || "No description available.";
 
   window.scrollTo({
-    top:0,
-    behavior:"smooth"
+    top: 0,
+    behavior: "smooth"
   });
 
 }
@@ -211,48 +193,6 @@ document
 
 
 
-
-/* THUMBNAIL */
-
-function showThumbnail(
-  videoId,
-  title = "",
-  description = ""
-){
-
-  const overlay =
-    document.getElementById(
-      "thumbnail-overlay"
-    );
-
-  const image =
-    document.getElementById(
-      "thumbnail-image"
-    );
-
-  image.src =
-    `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
-  overlay.style.display = "flex";
-
-  document
-    .getElementById("play-overlay-btn")
-    .onclick = () => {
-
-      overlay.style.display = "none";
-
-      playVideo(
-        videoId,
-        title,
-        description
-      );
-
-    };
-
-}
-
-
-
 /* SAVE */
 
 function saveLastVideo(id, title) {
@@ -267,76 +207,6 @@ function saveLastVideo(id, title) {
 /* CONTINUE */
 
 function loadContinueWatching() {
-
-
-  /* AUTO PLAY CONTINUE WATCHING */
-
-function autoPlayContinueWatching(){
-
-  const data =
-    JSON.parse(localStorage.getItem("lastVideo"));
-
-  if(!data) return;
-
-  const player =
-    document.getElementById("video-player");
-
-  /* HIDE THUMBNAIL */
-
-  const overlay =
-    document.getElementById(
-      "thumbnail-overlay"
-    );
-
-  overlay.style.display = "none";
-
-  /* AUTOPLAY MUTED */
-
-  player.src =
-    `https://www.youtube.com/embed/${data.id}?autoplay=1&mute=1&enablejsapi=1`;
-
-  document.getElementById(
-    "video-title"
-  ).innerText =
-    data.title;
-
-  document.getElementById(
-    "video-description"
-  ).innerText =
-    "Continue watching...";
-}
-
-
-saveLastVideo(id, title);
-
-
-/* TRACK MOST WATCHED */
-
-function trackViews(videoId){
-
-  let views =
-    JSON.parse(
-      localStorage.getItem("mostWatched")
-    ) || {};
-
-  if(!views[videoId]){
-
-    views[videoId] = 0;
-
-  }
-
-  views[videoId]++;
-
-  localStorage.setItem(
-    "mostWatched",
-    JSON.stringify(views)
-  );
-
-}
-
-
-trackViews(videoId);
-
 
   const data =
     JSON.parse(localStorage.getItem("lastVideo"));
@@ -427,8 +297,6 @@ document
 /* START */
 
 loadAll();
-
-autoPlayContinueWatching();
 
 
 
@@ -693,22 +561,3 @@ function showInstallButton() {
 
 
 
-/* AUTO NEXT */
-
-window.addEventListener("message", event => {
-
-  if (
-    event.data &&
-    typeof event.data === "string" &&
-    event.data.includes("onStateChange")
-  ){
-
-    if(event.data.includes(":0")){
-
-      playNext();
-
-    }
-
-  }
-
-});
