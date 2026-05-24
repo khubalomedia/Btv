@@ -704,7 +704,7 @@ body {
 }
 
 .mobile-nav-btn.active{
-  color:#ff1a1a;
+  color:#aaa;
 }
 
 @media(max-width:768px){
