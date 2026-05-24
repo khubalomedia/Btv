@@ -1,55 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<meta charset="UTF-8">
+<title>BaloTV</title>
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
 
-<title>BaloTV Library</title>
-
-<link rel="stylesheet"
-href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#000000">
 
 </head>
 
 <body>
 
-<!-- TOPBAR -->
 
-<header class="topbar">
 
-  <div class="menu-btn"
-  onclick="toggleMenu()">
 
-    <span></span>
-    <span></span>
-    <span></span>
+
+
+  <header class="topbar">
+
+    <!-- HAMBURGER MENU -->
+  
+    <div class="menu-btn" onclick="toggleMenu()">
+  
+      <span></span>
+      <span></span>
+      <span></span>
+  
+    </div>
+  
+    <!-- DROPDOWN MENU -->
+  
+    <div class="dropdown-menu" id="dropdownMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="about.html">Why BaloTV</a>
+  
+      <a href="terms.html">Terms</a>
+  
+    </div>
+  
+    <div class="logo">
+      <img src="balotv-logo.png" alt="BaloTV">
+    </div>
+  
+    <div class="top-right">
+      <input type="text" placeholder="Search..." id="searchInput">
+    </div>
+  
+  </header>
+
+
+
+<div class="layout">
+
+
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <!-- PLAYER -->
+    <section
+     class="player-section hidden"
+       id="playerSection"
+    >
+      <iframe
+        id="video-player"
+        src=""
+        allowfullscreen
+        allow="autoplay"
+      ></iframe>
+
+
+<!-- PLAYER CONTROLS -->
+
+<div class="player-controls">
+
+  <button id="prevBtn" class="control-btn">
+
+    <span>⏮</span>
+
+    Previous
+
+  </button>
+
+  <button id="nextBtn" class="control-btn next">
+
+    Next
+
+    <span>⏭</span>
+
+  </button>
+
+</div>
+
+<!-- VIDEO INFO -->
+
+<div class="video-info">
+
+  <div class="video-meta">
+
+    <div class="video-badge live-badge">
+
+      ● NOW PLAYING
+
+    </div>
+
+    <div class="video-badge">
+
+      BaloTV Stream
+
+    </div>
 
   </div>
 
-  <div class="dropdown-menu"
-  id="dropdownMenu">
+  <h1 id="video-title">
 
-    <a href="index.html">
-      Home
-    </a>
+    Welcome to BaloTV
 
-    <a href="library.html">
-      Library
-    </a>
+  </h1>
 
-  </div>
+  <p id="video-description">
 
-  <div class="logo">
+    Select any video to start watching.
 
-    <img src="balotv-logo.png">
+  </p>
 
-  </div>
+</div>
 
-</header>
+
+
+
+  <!-- UP NEXT -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>Up Next</h2>
+
+    </div>
+
+    <div
+      id="up-next-row"
+      class="video-row"
+    ></div>
+
+  </section>
+
+
+</section>
+
+
+
+
+
+
 
 <!-- CONTENT -->
 
@@ -94,7 +204,29 @@ href="styles.css">
 
   </section>
 
-</main>
+
+
+
+    
+  </main>
+
+</div>
+
+
+
+<script>
+
+  function toggleMenu(){
+  
+    document
+    .getElementById("dropdownMenu")
+    .classList
+    .toggle("active");
+  
+  }
+  
+  </script>
+
 
 
 <!-- MOBILE NAV -->
@@ -124,11 +256,8 @@ href="styles.css">
 
 </div>
 
+<script src="app.js"></script>
 
-
-
-<script src="library.js"></script>
 
 </body>
-
 </html>
