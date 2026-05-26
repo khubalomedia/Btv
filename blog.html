@@ -1,319 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>BaloTV</title>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>BaloTV Feed</title>
 
 <link rel="stylesheet" href="blog.css">
 
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#000000">
-
-
-
-<link rel="manifest" href="manifest.json">
-
-<meta
-  name="theme-color"
-  content="#ff1a1a"
-/>
-
-<link
-  rel="apple-touch-icon"
-  href="images/icons/icon-192.png"
-/>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 </head>
 
 <body>
 
+<header class="header">
 
+<div class="logo">
+BaloTV
+</div>
 
+</header>
 
+<div class="feed-container">
 
+<!-- CREATE POST -->
 
-  <header class="topbar">
+<div class="create-post">
 
-    <!-- HAMBURGER MENU -->
-  
-    <div class="menu-btn" onclick="toggleMenu()">
-  
-      <span></span>
-      <span></span>
-      <span></span>
-  
-    </div>
-  
-    <!-- DROPDOWN MENU -->
-  
-    <div class="dropdown-menu" id="dropdownMenu">
-  
-      <a href="index.html">Home</a>
-  
-      <a href="about.html">Why BaloTV</a>
-  
-      <a href="terms.html">Terms</a>
-  
-    </div>
-  
-    <div class="logo">
-      <img src="images/balotv-logo.png" alt="BaloTV">
-    </div>
-  
-    <div class="top-right">
-      <input type="text" placeholder="Search..." id="searchInput">
-    </div>
-  
-  </header>
+<input
+type="text"
+id="username"
+placeholder="Your name"
+>
 
+<textarea
+id="content"
+placeholder="What's happening on BaloTV?"
+></textarea>
 
+<input
+type="file"
+id="imageInput"
+accept="image/*"
+>
 
-<div class="layout">
-
-
-
-  <!-- MAIN -->
-  <main class="content">
-
-   
-<!-- SOCIAL FEED -->
-
-<section class="feed-section">
-
-  <!-- FEED HEADER -->
-
-  <div class="feed-topbar">
-
-    <h2>
-      Entertainment Feed
-    </h2>
-
-    <button class="feed-btn">
-      Trending
-    </button>
-
-  </div>
-
-  <!-- FEED -->
-
-  <div class="feed" id="blogGrid">
-
-    <!-- POST -->
-
-    <article class="feed-post">
-
-      <div class="feed-user">
-
-        <img
-          src="https://randomuser.me/api/portraits/men/32.jpg"
-        >
-
-        <div>
-
-          <h4>
-            BaloTV Music
-          </h4>
-
-          <span>
-            2h ago
-          </span>
-
-        </div>
-
-      </div>
-
-      <p class="feed-text">
-
-        New independent music videos are now
-        trending on BaloTV 🔥
-
-      </p>
-
-      <img
-        class="feed-image"
-        src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200"
-      >
-
-      <div class="feed-actions">
-
-        <button>❤️ 2.4K</button>
-
-        <button>💬 482</button>
-
-        <button>↗ Share</button>
-
-      </div>
-
-    </article>
-
-    <!-- POST -->
-
-    <article class="feed-post">
-
-      <div class="feed-user">
-
-        <img
-          src="https://randomuser.me/api/portraits/women/44.jpg"
-        >
-
-        <div>
-
-          <h4>
-            BaloTV Podcasts
-          </h4>
-
-          <span>
-            5h ago
-          </span>
-
-        </div>
-
-      </div>
-
-      <p class="feed-text">
-
-        Podcast creators are changing African
-        digital entertainment culture.
-
-      </p>
-
-      <img
-        class="feed-image"
-        src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200"
-      >
-
-      <div class="feed-actions">
-
-        <button>❤️ 1.1K</button>
-
-        <button>💬 290</button>
-
-        <button>↗ Share</button>
-
-      </div>
-
-    </article>
-
-    <!-- POST -->
-
-    <article class="feed-post">
-
-      <div class="feed-user">
-
-        <img
-          src="https://randomuser.me/api/portraits/men/12.jpg"
-        >
-
-        <div>
-
-          <h4>
-            Animation Weekly
-          </h4>
-
-          <span>
-            Yesterday
-          </span>
-
-        </div>
-
-      </div>
-
-      <p class="feed-text">
-
-        African animation creators are building
-        incredible cartoon stories for mobile audiences.
-
-      </p>
-
-      <img
-        class="feed-image"
-        src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=1200"
-      >
-
-      <div class="feed-actions">
-
-        <button>❤️ 3.7K</button>
-
-        <button>💬 802</button>
-
-        <button>↗ Share</button>
-
-      </div>
-
-    </article>
-
-  </div>
-
-</section>
-
-
-    
-  </main>
+<button onclick="createPost()">
+Post To Feed
+</button>
 
 </div>
 
+<!-- POSTS -->
 
+<div id="feed"></div>
 
-<script>
-
-  function toggleMenu(){
-  
-    document
-    .getElementById("dropdownMenu")
-    .classList
-    .toggle("active");
-  
-  }
-  
-  </script>
-
-
-
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-  <button
-    class="mobile-nav-btn active"
-    onclick="window.location.href='index.html'"
-  >
-    Home
-  </button>
-
-  <button
-    class="mobile-nav-btn"
-    onclick="window.location.href='library.html'"
-  >
-    Library
-  </button>
-
-  <button
-    class="mobile-nav-btn"
-    onclick="window.location.href='blog.html'"
-  >
-    Blog
-  </button>
+<div
+class="loading"
+id="loading"
+>
+Loading feed...
+</div>
 
 </div>
 
-<script src="Blogs.js"></script>
-
-
-<script>
-
-  if("serviceWorker" in navigator){
-  
-    navigator.serviceWorker
-    .register("/service-worker.js");
-  
-  }
-  
-  </script>
-
-
+<script src="blog.js"></script>
 
 </body>
 </html>
