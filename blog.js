@@ -73,7 +73,7 @@ await uploadImage(imageFile);
 
 const { error } =
 await supabaseClient
-.from('posts')
+.from('Posts')
 .insert([
 {
 username: username,
@@ -112,7 +112,7 @@ loading.style.display = 'block';
 
 const { data, error } =
 await supabaseClient
-.from('posts')
+.from('Posts')
 .select('*')
 .order(
 'created_at',
