@@ -3,28 +3,18 @@
 
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 
 <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-/>
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-<title>BaloTV</title>
+<title>BaloTV Feed</title>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="Live.css">
 
-<link rel="manifest" href="manifest.json">
-
-<meta
-  name="theme-color"
-  content="#ff1a1a"
-/>
-
-<link
-  rel="apple-touch-icon"
-  href="images/icons/icon-192.png"
-/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 </head>
 
@@ -153,73 +143,120 @@
 
 </header>
 
-<div class="layout">
-
-   <!-- MAIN -->
-
-<main class="content">
-
-<!-- PLAYER -->
-
-<section
-  class="player-section hidden"
-  id="playerSection"
->
-
-<iframe
-  id="video-player"
-  src=""
-  allowfullscreen
-  allow="autoplay"
-></iframe>
-
-<!-- PLAYER CONTROLS -->
-
-<div class="player-controls">
-
-<button
-  id="prevBtn"
-  class="control-btn"
->
-
-⏮ Previous
-
-</button>
-
-<button
-  id="nextBtn"
-  class="control-btn next"
->
-
-Next ⏭
-
-</button>
-
-</div>
+<main>
 
 
 
-
-<div
-  id="up-next-row"
-  class="video-row"
-></div>
-
-</section>
-
-</section>
-
-<!-- CONTENT -->
-
-<section class="section category-section" id="section-home">
-  <h2>Home Videos</h2>
-  <div id="row-home" class="video-list"></div>
-</section>
 
 
 </main>
 
+
+
+
+</script>
+
+
+<div id="authModal" class="auth-modal">
+
+<div class="auth-box">
+
+  <button id="closeAuth" class="close-auth">
+    ×
+  </button>
+
+  <h2 id="authTitle">
+    Login
+  </h2>
+
+  <input
+    id="authUsername"
+    type="text"
+    placeholder="Username"
+    style="display:none"
+  >
+
+  <input
+    id="authEmail"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="authPassword"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button
+    id="authSubmit"
+    class="auth-submit"
+  >
+    Continue
+  </button>
+
 </div>
+
+</div>
+
+
+
+<script>
+if("serviceWorker" in navigator){
+  
+  navigator.serviceWorker
+  .register("/service-worker.js");
+
+}
+
+</script>
+
+
+
+<div id="profileModal" class="auth-modal">
+
+  <div class="auth-box">
+
+    <button
+      id="closeProfile"
+      class="close-auth"
+    >
+      ×
+    </button>
+
+    <h2>
+      Edit Profile
+    </h2>
+
+    <input
+      id="newUsername"
+      type="text"
+      placeholder="New Username"
+    >
+
+    <input
+      type="file"
+      id="avatarUpload"
+      accept="image/*"
+    >
+
+    <button
+      id="saveProfileBtn"
+      class="auth-submit"
+    >
+      Save Changes
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- BLOG SCRIPT -->
+
+<script src="Live.js"></script>
+
 
 <!-- MOBILE NAV -->
 
@@ -227,54 +264,32 @@ Next ⏭
 
   <button
     class="mobile-nav-btn active"
-    onclick="window.location.href='index.html'"
+    onclick="
+      window.location.href='index.html'
+    "
   >
     Home
   </button>
 
   <button
     class="mobile-nav-btn"
-    onclick="window.location.href='library.html'"
+    onclick="
+      window.location.href='library.html'
+    "
   >
     Library
   </button>
 
   <button
     class="mobile-nav-btn"
-    onclick="window.location.href='Live.html'"
+    onclick="
+      window.location.href='Live.html'
+    "
   >
     Live
   </button>
 
 </div>
-
-<script>
-
-function toggleMenu(){
-
-  document
-    .getElementById("dropdownMenu")
-    .classList
-    .toggle("active");
-
-}
-
-</script>
-
-
-<script>
-
-  if("serviceWorker" in navigator){
-  
-    navigator.serviceWorker
-    .register("/service-worker.js");
-  
-  }
-
-</script>
-
-
-<script src="app.js"></script>
 
 </body>
 

@@ -1,710 +1,642 @@
-const API_KEY = "AIzaSyD6o4Zwpt0Qim-6lLdJ4Ti0gUWJbrMwk-Y";
-const CHANNEL_ID = "UC5reF0zkdOnB3GEpVqNJfHw";
+
+// SUPABASE CONNECTION
+const SUPABASE_URL =
+"https://lnuznyfumxjrfxtxozhg.supabase.co"
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxudXpueWZ1bXhqcmZ4dHhvemhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDU5MjgsImV4cCI6MjA5NTM4MTkyOH0.WxIT5uWCm-Y0UXiWvwTEzU_HCnYTxJoEt9SJFfUhIfo"
+
+const supabaseClient =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+)
+
+
+// AUTH STATE
+let currentUser = null
+
+
+// CHECK USER
+async function checkUser() {
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser()
+
+  currentUser = user
+
+  if (user) {
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select("username, avatar_url")
+    .eq("id", user.id)
+    .single()
+  
+    userLabel.innerText =
+    profile?.username || user.email
+    
+    avatarPreview.style.display =
+    "block"
+
+    avatarPreview.src =
+    profile?.avatar_url ||
+    "images/default-avatar.png"
+
+    avatarPreview.style.display =
+    "block"
+  
+    loginBtn.style.display =
+    "none"
+  
+    registerBtn.style.display =
+    "none"
+  
+    logoutBtn.style.display =
+    "inline-block"
+
+    editProfileBtn.style.display =
+    "inline-block"
+  
+  } else {
+
+    userLabel.innerText =
+    "Guest"
+
+    avatarPreview.style.display =
+    "none"
+
+    loginBtn.style.display =
+    "inline-block"
+
+    registerBtn.style.display =
+    "inline-block"
+
+    logoutBtn.style.display =
+    "none"
+
+    editProfileBtn.style.display =
+    "none"
+
+  }
+
+}
+
+
+// REGISTER
+async function register() {
+
+  const username =
+  prompt("Choose Username")
+
+  if (!username) return
+
+  const email =
+  prompt("Email")
+
+  if (!email) return
+
+  const password =
+  prompt("Password")
+
+  if (!password) return
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient.auth.signUp({
+    email,
+    password
+  })
+
+  if (error) {
+
+    alert(error.message)
+
+    return
+
+  }
+
+  if (data.user) {
+
+    const {
+      error: profileError
+    } =
+    await supabaseClient
+    .from("profiles")
+    .insert([
+      {
+        id: data.user.id,
+        username: username
+      }
+    ])
+
+    if (profileError) {
+
+      console.error(profileError)
+
+      alert(profileError.message)
+
+      return
+
+    }
+
+  }
+
+  await supabaseClient.auth
+  .signInWithPassword({
+    email,
+    password
+  })
+
+  await checkUser()
+
+  alert("Welcome to BaloTV!")
+
+}
+
+// LOGIN
+async function login() {
+
+  const email =
+  prompt("Email")
+
+  if (!email) return
+
+  const password =
+  prompt("Password")
+
+  if (!password) return
+
+  const { error } =
+  await supabaseClient.auth
+  .signInWithPassword({
+    email,
+    password
+  })
+
+  if (error) {
+
+    alert(error.message)
+
+    return
+
+  }
+
+  await checkUser()
+
+}
+
+
+// LOGOUT
+async function logout() {
+
+  await supabaseClient.auth.signOut()
+
+  await checkUser()
+
+}
 
 /* PLAYLISTS */
 
 const playlists = {
 
-  home: "PL8W_paC7-AOtnMN3II9_ukOAeNqBUZsy5",
 
-  talk: "PL8W_paC7-AOtTlt5kzJXexdirvM5HGIHf",
-
-  cartoons: "PL8W_paC7-AOuHLHtxjVGMRaeEVFdqpoix",
-
-  musicvideos: "PL8W_paC7-AOs-YVLrcN1rw_MhozUIoESZ",
-
-  
-};
-
-/* LOAD */
-
-async function loadAll() {
-
-  for (const category in playlists) {
-    loadPlaylist(playlists[category], `row-${category}`);
-  }
-
-  loadContinueWatching();
-}
-
-/* LOAD PLAYLIST */
-
-async function loadPlaylist(id, rowId) {
-
-  let allVideos = [];
-  let nextPageToken = "";
-
-  try {
-
-    do {
-
-      const url =
-        `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${id}&pageToken=${nextPageToken}&key=${API_KEY}`;
-
-      const res = await fetch(url);
-
-      const data = await res.json();
-
-      allVideos.push(...data.items);
-
-      nextPageToken = data.nextPageToken || "";
-
-    } while (nextPageToken);
-
-    displayVideos(allVideos, rowId);
-
-  } catch (err) {
-
-    console.log(err);
-
-  }
-
-}
-
-/* GLOBAL PLAYER STATE */
-
-let currentPlaylist = [];
-let currentIndex = 0;
-
-/* DISPLAY VIDEOS */
-
-function displayVideos(videos, rowId) {
-
-  const row = document.getElementById(rowId);
-
-  row.innerHTML = "";
-
-  videos.forEach((video, index) => {
-
-    if (
-      !video.snippet ||
-      !video.snippet.resourceId
-    ) return;
-
-    const videoId =
-      video.snippet.resourceId.videoId;
-
-    const shortTitle =
-      video.snippet.title.length > 50
-        ? video.snippet.title.slice(0, 50) + "..."
-        : video.snippet.title;
-
-    const card =
-      document.createElement("div");
-
-    card.className = "video-card";
-
-    card.innerHTML = `
-
-      <img
-        src="${video.snippet.thumbnails.medium.url}"
-      >
-
-      <div class="video-card-content">
-
-        <h4>${shortTitle}</h4>
-
-      </div>
-
-    `;
-
-    /* CLICK VIDEO */
-
-    card.onclick = () => {
-
-      /* CREATE QUEUE FROM CURRENT CATEGORY */
-
-      currentPlaylist = videos;
-
-      currentIndex = index;
-
-      playVideo(
-        videoId,
-        video.snippet.title,
-        video.snippet.description
-      );
-
-      updateUpNext();
-
-    };
-
-    row.appendChild(card);
-
-  });
-
-}
-
-/* PLAY VIDEO */
-
-function playVideo(
-  videoId,
-  title = "",
-  description = ""
-){
-
-  /* SHOW PLAYER */
-
-  document
-    .getElementById("playerSection")
-    .classList.remove("hidden");
-
-  const player =
-    document.getElementById("video-player");
-
-  player.src =
-    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-
-  /* SHORT DESCRIPTION */
-
-  let shortDescription =
-    description;
-
-  if(description.length > 180){
-
-    shortDescription =
-      description.slice(0,180) + "...";
-
-  }
-
-  document.getElementById(
-    "video-title"
-  ).innerText = title;
-
-  document.getElementById(
-    "video-description"
-  ).innerText =
-    shortDescription ||
-    "No description available.";
-
-  /* SAVE LAST PLAYED */
-
-  localStorage.setItem(
-    "lastPlayedVideo",
-    JSON.stringify({
-      videoId,
-      title,
-      description
-    })
+  educational: [
+
+    {
+      videoId: "S4vNf6UNs8E",
+      title: "Fake Casting Agent - African Casting"
+    },
+ 
+    {
+      videoId: "23ENrmIoCfs",
+      title: "South Africa's 2029 Election Could Change Everything"
+    },
+
+    {
+      videoId: "E0ElvFfV6U4",
+      title: "The History of Maize | How It Changed Africa"
+    }, 
+    
+    {
+      videoId: "ZE-sWzZx0VM",
+      title: "ChatGPT Explained for South African Students | Beginner's Guide 2026"
+    },
+
+
+  ],
+
+
+   talk: [
+
+    {
+      videoId: "z0Ito0_XF_8",
+      title: "Young Ross - Producer - Nkabi Record - Amaphiko"
+    },
+
+    {
+      videoId: "o_Zowc8eO90",
+      title: "Mhlekazi - Masikandi Artist - Interview"
+    },
+
+    {
+      videoId: "XvhCbD5sPec",
+      title: "Lawisa Zulu - Masikandi Artist - Interview"
+    },
+
+    {
+      videoId: "Tivk4nCSVfg",
+      title: "Nasty C Is My Bother Form Another Mother"
+    },
+
+    {
+      videoId: "QlqznFEUbBw",
+      title: "This Rap Battle Got Out Of Control"
+    },
+ 
+   ],
+ 
+   cartoons: [
+
+    {
+      videoId: "ryA419P7Z1Q",
+      title: "I'm Not A Berry - Fruity Friends"
+    },
+
+ 
+     {
+       videoId: "pAHuC9E_Axg",
+       title: "Truth Or Truth - Fruity Friends"
+     },
+ 
+     {
+       videoId: "fg8uJ0GZ3jk",
+       title: "IskhathiSes'phithisphithi KwaMthembu - E1"
+     },
+ 
+     {
+       videoId: "j9rRaQbLZLo",
+       title: "IskhathiSes'phithisphithi KwaMthembu - E2"
+     },
+
+     {
+      videoId: "cNBdNIUkq2k",
+      title: "Story Time"
+    },
+
+    {
+      videoId: "ii4-VAtg2fg",
+      title: "He Starved At School To Avoid Bullying"
+    },
+
+    {
+      videoId: "e9ODdIf_tOU",
+      title: "IskhathiSes'phithisphithi KwaMthembu - E2"
+    },
+
+    {
+      videoId: "tyByhQtGzWM",
+      title: "KFC Hist"
+    },
+
+    {
+      videoId: "SGWahTOOgHo",
+      title: "IskhathiSes'phithisphithi KwaMthembu - E1"
+    },
+
+    {
+      videoId: "ogK4XR-0ho4",
+      title: "IskhathiSes'phithisphithi KwaMthembu - E2"
+    },
+
+    {
+     videoId: "gv5RNibH_cw",
+     title: "Truth Or Truth - Fruity Friends"
+   },
+
+   {
+     videoId: "yR9eY07X0Hc",
+     title: "IskhathiSes'phithisphithi KwaMthembu - E1"
+   },
+
+   {
+     videoId: "9nons4kJfFY",
+     title: "IskhathiSes'phithisphithi KwaMthembu - E2"
+   }
+ 
+   ],
+ 
+   trailer: [
+ 
+    {
+      videoId: "ONytvK1G9fY",
+      title: "Young Ross - Producer - Nkabi Record - Amaphiko - Trailer"
+    },
+
+    {
+      videoId: "OwWlrcgZJF0",
+      title: "Mhlekazi - Masikandi Artist - Trailer"
+    },
+
+
+    {
+     videoId: "cYup8Xd8i_U",
+     title: "Lawisa - Masikandi Artist - Trailer"
+   },
+
+   
+ 
+   ],
+ 
+ };
+ 
+ /* PLAYER STATE */
+ 
+ let currentPlaylist = [];
+ 
+ let currentIndex = 0;
+ 
+ /* ELEMENTS */
+ 
+ const playerSection =
+   document.getElementById(
+     "playerSection"
+   );
+ 
+ const player =
+   document.getElementById(
+     "video-player"
+   );
+ 
+ const videoTitle =
+   document.getElementById(
+     "video-title"
+   );
+ 
+ /* HIDE PLAYER INITIALLY */
+ 
+ playerSection.classList.add(
+   "hidden"
+ );
+ 
+ /* LOAD ALL VIDEOS */
+ 
+ function loadAll() {
+
+  displayVideos(
+    playlists.educational,
+    "row-educational"
   );
-
-  /* SCROLL TO PLAYER */
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-
-/* LOAD LAST PLAYED VIDEO */
-
-function loadLastPlayedVideo(){
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem(
-        "lastPlayedVideo"
-      )
-    );
-
-  if(!saved) return;
-
-  playVideo(
-    saved.videoId,
-    saved.title,
-    saved.description
-  );
-
-}
-
-
-
-/* UP NEXT QUEUE */
-
-function updateUpNext(){
-
-  const row =
-    document.getElementById("up-next-row");
-
-  if(!row) return;
-
-  row.innerHTML = "";
-
-  const nextVideos =
-    currentPlaylist.slice(
-      currentIndex + 1,
-      currentIndex + 8
-    );
-
-  nextVideos.forEach((video, index) => {
-
-    const videoId =
-      video.snippet.resourceId.videoId;
-
-    const card =
-      document.createElement("div");
-
-    card.className = "video-card";
-
-    card.innerHTML = `
-
-      <img
-        src="${video.snippet.thumbnails.medium.url}"
-      >
-
-      <div class="video-card-content">
-
-        <h4>
-          ${video.snippet.title.slice(0, 45)}
-        </h4>
-
-      </div>
-
-    `;
-
-    card.onclick = () => {
-
-      currentIndex =
-        currentIndex + index + 1;
-
-      playVideo(
-        videoId,
-        video.snippet.title,
-        video.snippet.description
-      );
-
-      updateUpNext();
-
-    };
-
-    row.appendChild(card);
-
-  });
-
-}
-
-
-
-
-/* NEXT VIDEO */
-
-function playNext(){
-
-  if(
-    currentIndex <
-    currentPlaylist.length - 1
-  ){
-
-    currentIndex++;
-
-    const nextVideo =
-      currentPlaylist[currentIndex];
-
-    const videoId =
-      nextVideo.snippet.resourceId.videoId;
-
-    playVideo(
-      videoId,
-      nextVideo.snippet.title,
-      nextVideo.snippet.description
-    );
-
-    updateUpNext();
-
-  }
-
-}
-
-
-/* PREVIOUS VIDEO */
-
-function playPrevious(){
-
-  if(currentIndex > 0){
-
-    currentIndex--;
-
-    const prevVideo =
-      currentPlaylist[currentIndex];
-
-    const videoId =
-      prevVideo.snippet.resourceId.videoId;
-
-    playVideo(
-      videoId,
-      prevVideo.snippet.title,
-      prevVideo.snippet.description
-    );
-
-    updateUpNext();
-
-  }
-
-}
-
-/* BUTTONS */
-
-document
-  .getElementById("nextBtn")
-  .addEventListener("click", playNext);
-
-document
-  .getElementById("prevBtn")
-  .addEventListener("click", playPrevious);
-
-
-
-
-/* HIDE PLAYER WHEN SWITCHING CATEGORY */
-
-document
-  .getElementById("playerSection")
-  .classList.add("hidden");
-
-
-
-  
-
-/* SAVE */
-
-function saveLastVideo(id, title) {
-
-  localStorage.setItem(
-    "lastVideo",
-    JSON.stringify({ id, title })
-  );
-
-}
-
-
-
-/* CATEGORY SWITCHING */
-
-const buttons =
-  document.querySelectorAll(".category-btn");
-
-const sections =
-  document.querySelectorAll(".category-section");
-
-buttons.forEach(button => {
-
-  button.addEventListener("click", () => {
-
-    buttons.forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-    button.classList.add("active");
-
-    const category =
-      button.dataset.category;
-
-    sections.forEach(section =>
-      section.classList.add("hidden")
-    );
-
-    document
-      .getElementById(`section-${category}`)
-      .classList.remove("hidden");
-
-  });
-
-});
-
-/* SEARCH */
-
-document
-  .getElementById("searchInput")
-  .addEventListener("input", function () {
-
-    const value =
-      this.value.toLowerCase();
-
-    const cards =
-      document.querySelectorAll(".video-card");
-
-    cards.forEach(card => {
-
-      const text =
-        card.innerText.toLowerCase();
-
-      card.style.display =
-        text.includes(value)
-          ? "block"
-          : "none";
-
-    });
-
-  });
-
-/* START */
-
-loadAll();
-
-
-
-
-
-
-
-
-let isLogin = true;
-
-const authModal =
-  document.getElementById("authModal");
-
-const authTitle =
-  document.getElementById("authTitle");
-
-const switchAuth =
-  document.getElementById("switchAuth");
-
-/* LOGIN BUTTON */
-
-document
-  .getElementById("loginBtn")
-  .addEventListener("click", () => {
-
-    authModal.classList.remove("hidden");
-
-    authTitle.innerText = "Login";
-
-    isLogin = true;
-
-  });
-
-/* REGISTER BUTTON */
-
-document
-  .getElementById("registerBtn")
-  .addEventListener("click", () => {
-
-    authModal.classList.remove("hidden");
-
-    authTitle.innerText = "Register";
-
-    isLogin = false;
-
-  });
-
-/* BOTTOM REGISTER BUTTON */
-
-document
-  .getElementById("bottomRegisterBtn")
-  .addEventListener("click", () => {
-
-    authModal.classList.remove("hidden");
-
-    authTitle.innerText = "Register";
-
-    isLogin = false;
-
-  });
-
-/* SWITCH */
-
-switchAuth.addEventListener("click", () => {
-
-  isLogin = !isLogin;
-
-  authTitle.innerText =
-    isLogin ? "Login" : "Register";
-
-  switchAuth.innerText =
-    isLogin
-      ? "Don't have an account? Register"
-      : "Already have an account? Login";
-
-});
-
-/* SUBMIT */
-
-document
-  .getElementById("authSubmit")
-  .addEventListener("click", async () => {
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value.trim();
-
-    if (!email || !password) {
-
-      alert("Please fill in all fields");
-
-      return;
-
-    }
-
-    try {
-
-      if (isLogin) {
-
-        await auth.signInWithEmailAndPassword(
-          email,
-          password
-        );
-
-        alert("Logged in successfully!");
-
-      } else {
-
-        await auth.createUserWithEmailAndPassword(
-          email,
-          password
-        );
-
-        alert("Account created successfully!");
-
-      }
-
-      authModal.classList.add("hidden");
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(error.message);
-
-    }
-
-  });
-
-/* FORGOT PASSWORD */
-
-document
-  .getElementById("forgotPassword")
-  .addEventListener("click", async () => {
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    if (!email) {
-
-      alert("Enter your email");
-
-      return;
-
-    }
-
-    try {
-
-      await auth.sendPasswordResetEmail(email);
-
-      alert("Password reset email sent!");
-
-    } catch (error) {
-
-      alert(error.message);
-
-    }
-
-  });
-
-/* AUTH STATE */
-
-auth.onAuthStateChanged(user => {
-
-  if (user) {
-
-    document.querySelector(".logo").innerText =
-      `BaloTV • ${user.email}`;
-
-  } else {
-
-    document.querySelector(".logo").innerText =
-      "BaloTV";
-
-  }
-
-});
-
-
-auth.onAuthStateChanged(user => {
-
-  if (user) {
-
-    document.querySelector(".logo").innerText =
-      `BaloTV • ${user.email}`;
-
-  }
-
-});
-
-
-
-const firebaseConfig = {
-
-  apiKey: "AIzaSyD6o4Zwpt0Qim-6lLdJ4Ti0gUWJbrMwk-Y",
-
-  authDomain: "balotv-d9c1d.firebaseapp.com",
-
-  projectId: "balotv-d9c1d",
-
-  storageBucket: "balotv-d9c1d.firebasestorage.app",
-
-  messagingSenderId: "96925959779",
-
-  appId: "1:96925959779:web:ed8cef5de90a0f410ada56"
-
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-
-auth.setPersistence(
-  firebase.auth.Auth.Persistence.LOCAL
-);
-
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js");
-}
-
-
-
-let deferredPrompt;
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  showInstallButton(); // we create this next
-});
-
-function showInstallButton() {
-  const btn = document.createElement("button");
-  btn.innerText = "📲 Install BaloTV App";
-  btn.style.position = "fixed";
-  btn.style.bottom = "20px";
-  btn.style.right = "20px";
-  btn.style.padding = "12px 16px";
-  btn.style.background = "#000";
-  btn.style.color = "#fff";
-  btn.style.border = "1px solid #fff";
-  btn.style.borderRadius = "8px";
-  btn.style.zIndex = "9999";
-
-  document.body.appendChild(btn);
-
-  btn.addEventListener("click", async () => {
-    btn.style.display = "none";
-
-    deferredPrompt.prompt();
-
-    const choice = await deferredPrompt.userChoice;
-
-    if (choice.outcome === "accepted") {
-      console.log("User installed app");
-    }
-
-    deferredPrompt = null;
-  });
-}
-
-
-
+ 
+   displayVideos(
+     playlists.talk,
+     "row-talk"
+   );
+ 
+   displayVideos(
+     playlists.cartoons,
+     "row-cartoons"
+   );
+ 
+   displayVideos(
+     playlists.trailer,
+     "row-trailer"
+   );
+ 
+ }
+ 
+ /* DISPLAY VIDEOS */
+ 
+ function displayVideos(
+   videos,
+   rowId
+ ) {
+ 
+   const row =
+     document.getElementById(rowId);
+ 
+   if (!row) return;
+ 
+   row.innerHTML = "";
+ 
+   videos.forEach((video, index) => {
+ 
+     const card =
+       document.createElement("div");
+ 
+     card.className =
+       "video-card";
+ 
+     card.innerHTML = `
+ 
+       <img
+         class="video-thumb"
+         src="https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg"
+         loading="lazy"
+       >
+ 
+       <div class="video-card-content">
+ 
+         <h4>${video.title}</h4>
+ 
+       </div>
+ 
+     `;
+ 
+     card.onclick = () => {
+ 
+       currentPlaylist = videos;
+ 
+       currentIndex = index;
+ 
+       playVideo(
+         video.videoId,
+         video.title
+       );
+ 
+     };
+ 
+     row.appendChild(card);
+ 
+   });
+ 
+ }
+ 
+ /* PLAY VIDEO */
+ 
+ function playVideo(
+   videoId,
+   title = ""
+ ) {
+ 
+   playerSection.classList.remove(
+     "hidden"
+   );
+ 
+   player.src =
+     `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+ 
+   videoTitle.innerText =
+     title;
+ 
+   window.scrollTo({
+ 
+     top: 0,
+ 
+     behavior: "smooth"
+ 
+   });
+ 
+   localStorage.setItem(
+     "lastPlayedVideo",
+     JSON.stringify({
+       videoId,
+       title
+     })
+   );
+ 
+ }
+ 
+ /* LOAD LAST PLAYED */
+ 
+ function loadLastPlayed() {
+ 
+   const saved =
+     JSON.parse(
+       localStorage.getItem(
+         "lastPlayedVideo"
+       )
+     );
+ 
+   if (!saved) return;
+ 
+   playVideo(
+     saved.videoId,
+     saved.title
+   );
+ 
+ }
+ 
+ /* NEXT VIDEO */
+ 
+ function playNext() {
+ 
+   if (
+     currentIndex <
+     currentPlaylist.length - 1
+   ) {
+ 
+     currentIndex++;
+ 
+     const nextVideo =
+       currentPlaylist[currentIndex];
+ 
+     playVideo(
+       nextVideo.videoId,
+       nextVideo.title
+     );
+ 
+   }
+ 
+ }
+ 
+ /* PREVIOUS VIDEO */
+ 
+ function playPrevious() {
+ 
+   if (currentIndex > 0) {
+ 
+     currentIndex--;
+ 
+     const prevVideo =
+       currentPlaylist[currentIndex];
+ 
+     playVideo(
+       prevVideo.videoId,
+       prevVideo.title
+     );
+ 
+   }
+ 
+ }
+ 
+ /* BUTTONS */
+ 
+ document
+   .getElementById("nextBtn")
+   .addEventListener(
+     "click",
+     playNext
+   );
+ 
+ document
+   .getElementById("prevBtn")
+   .addEventListener(
+     "click",
+     playPrevious
+   );
+ 
+ /* SEARCH */
+ 
+ document
+   .getElementById("searchInput")
+   .addEventListener(
+     "input",
+     function () {
+ 
+       const value =
+         this.value.toLowerCase();
+ 
+       const cards =
+         document.querySelectorAll(
+           ".video-card"
+         );
+ 
+       cards.forEach(card => {
+ 
+         const text =
+           card.innerText.toLowerCase();
+ 
+         card.style.display =
+           text.includes(value)
+             ? "block"
+             : "none";
+ 
+       });
+ 
+     }
+   );
+ 
+ /* SERVICE WORKER */
+ 
+ if (
+   "serviceWorker" in navigator
+ ) {
+ 
+   navigator
+     .serviceWorker
+     .register(
+       "/service-worker.js"
+     );
+ 
+ }
+ 
+ /* START */
+ 
+ loadAll();
+ 
+ /* COMMENT THIS OUT
+    IF YOU DON'T WANT
+    PLAYER TO AUTO-OPEN
+ */
+ 
+ /*
+ loadLastPlayed();
+ */
