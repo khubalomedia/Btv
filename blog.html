@@ -3,260 +3,146 @@
 
 <head>
 
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+/>
 
-<title>BaloTV Feed</title>
+<title>BaloTV</title>
 
-<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="styles.css">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<link rel="manifest" href="manifest.json">
+
+<meta
+  name="theme-color"
+  content="#ff1a1a"
+/>
+
+<link
+  rel="apple-touch-icon"
+  href="images/icons/icon-192.png"
+/>
 
 </head>
 
 <body>
 
-<!-- TOPBAR -->
-
 <header class="topbar">
 
-  <div class="topbar-left">
+  <!-- HAMBURGER MENU -->
 
-    <!-- MENU -->
+  <div
+    class="menu-btn"
+    onclick="toggleMenu()"
+  >
 
-    <div class="menu-btn" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
-    <!-- LOGO -->
-
-    <a href="index.html" class="logo">
-      <img
-        src="images/balotv-logo.png"
-        alt="BaloTV"
-      >
-    </a>
+    <span></span>
+    <span></span>
+    <span></span>
 
   </div>
 
-  <!-- AUTH BUTTONS -->
-
-  <div class="header-actions">
-
-    <div class="user-info">
-
-      <img
-        id="avatarPreview"
-        src="images/default-avatar.png"
-        alt="Profile"
-        class="header-avatar"
-      >
-    
-      <span
-        id="userLabel"
-        style="
-        color:white;
-        margin-right:10px;
-        "
-      >
-        Guest
-      </span>
-    
-    </div>
-    
-    <input
-      type="file"
-      id="avatarInput"
-      accept="image/*"
-      hidden
-    >
-    
-    <button
-      id="avatarBtn"
-      class="header-btn"
-      style="display:none;"
-    >
-      Photo
-    </button>
-
-    <button
-      id="loginBtn"
-      class="header-btn login-btn"
-    >
-      Login
-    </button>
-
-    <button
-      id="registerBtn"
-      class="header-btn register-btn"
-    >
-      Register
-    </button>
-
-
-  </div>
-
-  <!-- DROPDOWN -->
+  <!-- DROPDOWN MENU -->
 
   <div
     class="dropdown-menu"
     id="dropdownMenu"
   >
 
-    <a href="index.html">
-      Home
-    </a>
+    <a href="index.html">Home</a>
 
-    <a href="about.html">
-      Submit Content
-    </a>
+    <a href="about.html">Submit Content</a>
 
-    <a href="terms.html">
-      Terms
-    </a>
+    <a href="blog.html">Blog</a>
 
-    <button
-    id="editProfileBtn"
-    class="header-btn"
-    style="display:none;"
-  >
-    Edit Profile
-  </button>
+  </div>
 
-    <button
-      id="logoutBtn"
-      class="header-btn"
-      style="display:none;"
+  <div class="logo">
+
+    <img
+      src="images/balotv-logo.png"
+      alt="BaloTV"
     >
-    
-      Logout
-    </button>
 
+  </div>
+
+  <div class="top-right">
+
+    <input
+      type="text"
+      placeholder="Search..."
+      id="searchInput"
+    >
 
   </div>
 
 </header>
 
+<div class="layout">
 
-<!-- MAIN CONTENT -->
+   <!-- MAIN -->
 
-<main class="feed-container">
+<main class="content">
 
-  
+<!-- PLAYER -->
+
+<section
+  class="player-section hidden"
+  id="playerSection"
+>
+
+<iframe
+  id="video-player"
+  src=""
+  allowfullscreen
+  allow="autoplay"
+></iframe>
+
+<!-- PLAYER CONTROLS -->
+
+<div class="player-controls">
+
+<button
+  id="prevBtn"
+  class="control-btn"
+>
+
+⏮ Previous
+
+</button>
+
+<button
+  id="nextBtn"
+  class="control-btn next"
+>
+
+Next ⏭
+
+</button>
+
+</div>
+
+
+
+
+<div
+  id="up-next-row"
+  class="video-row"
+></div>
+
+</section>
+
+</section>
+
+
+
+
 </main>
 
-
-
-
-</script>
-
-
-<div id="authModal" class="auth-modal">
-
-<div class="auth-box">
-
-  <button id="closeAuth" class="close-auth">
-    ×
-  </button>
-
-  <h2 id="authTitle">
-    Login
-  </h2>
-
-  <input
-    id="authUsername"
-    type="text"
-    placeholder="Username"
-    style="display:none"
-  >
-
-  <input
-    id="authEmail"
-    type="email"
-    placeholder="Email"
-  >
-
-  <input
-    id="authPassword"
-    type="password"
-    placeholder="Password"
-  >
-
-  <button
-    id="authSubmit"
-    class="auth-submit"
-  >
-    Continue
-  </button>
-
 </div>
-
-</div>
-
-
-
-<script>
-if("serviceWorker" in navigator){
-  
-  navigator.serviceWorker
-  .register("/service-worker.js");
-
-}
-
-</script>
-
-
-
-<div id="profileModal" class="auth-modal">
-
-  <div class="auth-box">
-
-    <button
-      id="closeProfile"
-      class="close-auth"
-    >
-      ×
-    </button>
-
-    <h2>
-      Edit Profile
-    </h2>
-
-    <input
-      id="newUsername"
-      type="text"
-      placeholder="New Username"
-    >
-
-    <input
-      type="file"
-      id="avatarUpload"
-      accept="image/*"
-    >
-
-    <button
-      id="saveProfileBtn"
-      class="auth-submit"
-    >
-      Save Changes
-    </button>
-
-  </div>
-
-</div>
-
-
-
-<!-- BLOG SCRIPT -->
-
-<script src="blog.js"></script>
-
 
 <!-- MOBILE NAV -->
 
@@ -264,32 +150,54 @@ if("serviceWorker" in navigator){
 
   <button
     class="mobile-nav-btn active"
-    onclick="
-      window.location.href='index.html'
-    "
+    onclick="window.location.href='index.html'"
   >
     Home
   </button>
 
   <button
     class="mobile-nav-btn"
-    onclick="
-      window.location.href='library.html'
-    "
+    onclick="window.location.href='library.html'"
   >
     Library
   </button>
 
   <button
     class="mobile-nav-btn"
-    onclick="
-      window.location.href='blog.html'
-    "
+    onclick="window.location.href='blog.html'"
   >
     Live
   </button>
 
 </div>
+
+<script>
+
+function toggleMenu(){
+
+  document
+    .getElementById("dropdownMenu")
+    .classList
+    .toggle("active");
+
+}
+
+</script>
+
+
+<script>
+
+  if("serviceWorker" in navigator){
+  
+    navigator.serviceWorker
+    .register("/service-worker.js");
+  
+  }
+
+</script>
+
+
+<script src="app.js"></script>
 
 </body>
 
