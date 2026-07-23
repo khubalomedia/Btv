@@ -38,124 +38,64 @@
 
   <!-- TOPBAR -->
 
-<header class="topbar">
+  <header class="topbar">
 
-  <div class="topbar-left">
+    <!-- MENU BUTTON -->
 
-    <!-- MENU -->
+    <div
+      class="menu-btn"
+      onclick="toggleMenu()"
+    >
 
-    <div class="menu-btn" onclick="toggleMenu()">
       <span></span>
       <span></span>
       <span></span>
+
+    </div>
+
+    <!-- DROPDOWN -->
+
+    <div
+      class="dropdown-menu"
+      id="dropdownMenu"
+    >
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="about.html">
+        Submit Content
+      </a>
+
+      <a href="terms.html">
+        Terms
+      </a>
+
     </div>
 
     <!-- LOGO -->
 
-    <a href="index.html" class="logo">
+    <div class="logo">
+
       <img
         src="images/balotv-logo.png"
         alt="BaloTV"
       >
-    </a>
 
-  </div>
-
-  <!-- AUTH BUTTONS -->
-
-  <div class="header-actions">
-
-    <div class="user-info">
-
-      <img
-        id="avatarPreview"
-        src="images/default-avatar.png"
-        alt="Profile"
-        class="header-avatar"
-      >
-    
-      <span
-        id="userLabel"
-        style="
-        color:white;
-        margin-right:10px;
-        "
-      >
-        Guest
-      </span>
-    
     </div>
-    
-    <input
-      type="file"
-      id="avatarInput"
-      accept="image/*"
-      hidden
-    >
-    
-    <button
-      id="avatarBtn"
-      class="header-btn"
-      style="display:none;"
-    >
-      Photo
-    </button>
 
-    <button
-      id="loginBtn"
-      class="header-btn login-btn"
-    >
-      Login
-    </button>
+    <!-- SEARCH -->
 
-    <button
-      id="registerBtn"
-      class="header-btn register-btn"
-    >
-      Register
-    </button>
+    <div class="top-right">
 
+      <input
+        type="text"
+        placeholder="Search..."
+        id="searchInput"
+      />
 
-  </div>
-
-  <!-- DROPDOWN -->
-
-  <div
-    class="dropdown-menu"
-    id="dropdownMenu"
-  >
-
-    <a href="index.html">
-      Home
-    </a>
-
-    <a href="about.html">
-      Submit Content
-    </a>
-
-    <a href="terms.html">
-      Terms
-    </a>
-
-    <button
-    id="editProfileBtn"
-    class="header-btn"
-    style="display:none;"
-  >
-    Edit Profile
-  </button>
-
-    <button
-      id="logoutBtn"
-      class="header-btn"
-      style="display:none;"
-    >
-    
-      Logout
-    </button>
-
-
-  </div>
+    </div>
 
   </header>
 
@@ -324,9 +264,9 @@
 
     <button
       class="mobile-nav-btn"
-      onclick="window.location.href='Live.html'"
+      onclick="window.location.href='blog.html'"
     >
-      Live
+      Blog
     </button>
 
   </div>
