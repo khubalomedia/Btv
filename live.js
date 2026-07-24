@@ -7,38 +7,6 @@
 // Replace with YOUR YouTube Channel ID
 const CHANNEL_ID = "UC5reF0zkdOnB3GEpVqNJfHw";
 
-// Latest Videos
-const videos = [
-
-{
-videoId:"Tivk4nCSVfg",
-title:"Nasty C is my brother from another mother"
-},
-
-{
-videoId:"S4vNf6UNs8E",
-title:"Ivo Suzee EXPOSED?"
-},
-
-{
-videoId:"ZE-sWzZx0VM",
-title:"ChatGPT Explained"
-},
-
-{
-videoId:"OwWlrcgZJF0",
-title:"Mhlekazi Trailer"
-},
-
-{
-videoId:"ONytvK1G9fY",
-title:"Young Ross Trailer"
-}
-
-];
-
-let currentIndex = 0;
-
 // Elements
 
 const player =
@@ -129,110 +97,7 @@ videoGrid.appendChild(card);
 
 }
 
-/* ==========================
-   UP NEXT
-========================== */
 
-function updateUpNext(){
-
-upNext.innerHTML="";
-
-videos
-.slice(currentIndex+1,currentIndex+4)
-.forEach((video)=>{
-
-const card =
-document.createElement("div");
-
-card.className="video-card";
-
-card.innerHTML=`
-
-<img src="https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg">
-
-<h3>${video.title}</h3>
-
-`;
-
-card.onclick=()=>{
-
-const index =
-videos.findIndex(v=>v.videoId===video.videoId);
-
-playVideo(index);
-
-};
-
-upNext.appendChild(card);
-
-});
-
-}
-
-/* ==========================
-   NEXT
-========================== */
-
-document
-.getElementById("nextBtn")
-.onclick=()=>{
-
-if(currentIndex<videos.length-1){
-
-playVideo(currentIndex+1);
-
-}
-
-};
-
-/* ==========================
-   PREVIOUS
-========================== */
-
-document
-.getElementById("prevBtn")
-.onclick=()=>{
-
-if(currentIndex>0){
-
-playVideo(currentIndex-1);
-
-}
-
-};
-
-/* ==========================
-   SAVE LAST VIDEO
-========================== */
-
-function saveLastVideo(){
-
-localStorage.setItem(
-
-"balotv",
-
-currentIndex
-
-);
-
-}
-
-/* ==========================
-   LOAD LAST VIDEO
-========================== */
-
-function loadLastVideo(){
-
-const saved =
-localStorage.getItem("balotv");
-
-if(saved!==null){
-
-playVideo(Number(saved));
-
-}
-
-}
 
 /* ==========================
    CHECK LIVE
