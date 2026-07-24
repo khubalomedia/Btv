@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BaloTV Live</title>
+
+<link rel="stylesheet" href="live.css">
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#d60000">
+
+<link rel="icon" href="images/balotv-logo-1.png">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="topbar">
+
+    <div class="logo-box">
+
+        <img src="images/balotv-logo-1.png" alt="BaloTV Logo" class="logo">
+
+        <div>
+
+            
+
+            <span class="channel-number">
+                CH 01
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="live-indicator">
+
+        <span class="live-dot"></span>
+
+        <span id="liveStatus">
+            LIVE
+        </span>
+
+    </div>
+
+</header>
+
+<!-- NEWS TICKER -->
+
+<div class="ticker">
+
+    <div class="ticker-content">
+
+        📺 Welcome to BaloTV • Local News • Politics • Sports • Entertainment • Music • Community • Interviews • Podcasts • Streaming Across South Africa •
+
+    </div>
+
+</div>
+
+<!-- LIVE PLAYER -->
+
+<section class="player-section">
+
+    <h2 class="section-title">
+
+        🔴 LIVE NOW
+
+    </h2>
+
+    <div class="player-wrapper">
+
+        <iframe
+
+            id="livePlayer"
+
+            src=""
+
+            allowfullscreen
+
+            allow="autoplay; encrypted-media"
+
+        ></iframe>
+
+    </div>
+
+</section>
+
+<!-- OFF AIR -->
+
+<section id="offlineScreen">
+
+    <div class="offline-box">
+
+        <h2>
+
+            📺 CURRENTLY OFF AIR
+
+        </h2>
+
+        <p>
+
+            There is no live broadcast at the moment.
+
+        </p>
+
+        <p>
+
+            Please check back later.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- LATEST VIDEOS -->
+
+<section class="videos-section">
+
+    <h2 class="section-title">
+
+        Latest Videos
+
+    </h2>
+
+    <div id="videoGrid" class="video-grid">
+
+        <!-- JavaScript Adds Videos -->
+
+    </div>
+
+</section>
+
+<!-- UP NEXT -->
+
+<section class="videos-section">
+
+    <h2 class="section-title">
+
+        Up Next
+
+    </h2>
+
+    <div id="upNext" class="video-grid">
+
+    </div>
+
+</section>
+
+<!-- PLAYER CONTROLS -->
+
+<div class="controls">
+
+    <button id="prevBtn">
+
+        ⏮ Previous
+
+    </button>
+
+    <button id="nextBtn">
+
+        Next ⏭
+
+    </button>
+
+</div>
+
+
+  <!-- MOBILE NAV -->
+
+  <div class="mobile-nav">
+
+    <button
+      class="mobile-nav-btn active"
+      onclick="window.location.href='index.html'"
+    >
+      Home
+    </button>
+
+    <button
+      class="mobile-nav-btn"
+      onclick="window.location.href='library.html'"
+    >
+      Library
+    </button>
+
+    <button
+      class="mobile-nav-btn"
+      onclick="window.location.href='blog.html'"
+    >
+      Live
+    </button>
+
+  </div>
+
+
+
+
+<script src="live.js"></script>
+
+</body>
+</html>
