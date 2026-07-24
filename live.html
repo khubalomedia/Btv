@@ -21,33 +21,56 @@
 
 <!-- HEADER -->
 
+<!-- TOPBAR -->
+
 <header class="topbar">
 
-    <div class="logo-box">
+  <!-- MENU BUTTON -->
 
-        <img src="images/balotv-logo-1.png" alt="BaloTV Logo" class="logo">
+  <div
+    class="menu-btn"
+    onclick="toggleMenu()"
+  >
 
-        <div>
+    <span></span>
+    <span></span>
+    <span></span>
 
-            
+  </div>
 
-            <span class="channel-number">
-                CH 01
-            </span>
+  <!-- DROPDOWN -->
 
-        </div>
+  <div
+    class="dropdown-menu"
+    id="dropdownMenu"
+  >
 
-    </div>
+    <a href="index.html">
+      Home
+    </a>
 
-    <div class="live-indicator">
+    <a href="about.html">
+      Submit Content
+    </a>
 
-        <span class="live-dot"></span>
+    <a href="terms.html">
+      Terms
+    </a>
 
-        <span id="liveStatus">
-            LIVE
-        </span>
+  </div>
 
-    </div>
+  <!-- LOGO -->
+
+  <div class="logo">
+
+    <img
+      src="images/balotv-logo.png"
+      alt="BaloTV"
+    >
+
+  </div>
+
+
 
 </header>
 
@@ -109,7 +132,23 @@
 
 </section>
 
+<section class="live-schedule">
 
+    <h2>Today's Schedule</h2>
+    
+    <div class="schedule-card">
+    
+    <p><strong>09:00</strong> Morning News</p>
+    
+    <p><strong>12:00</strong> Interviews</p>
+    
+    <p><strong>18:00</strong> 🔴 LIVE Broadcast</p>
+    
+    <p><strong>20:00</strong> Entertainment</p>
+    
+    </div>
+    
+    </section>
 
 
   <!-- MOBILE NAV -->

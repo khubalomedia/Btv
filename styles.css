@@ -94,7 +94,7 @@ body {
 
 .sidebar {
   width: 220px;
-  background: #111;
+  background: #532121;
   min-height: 100vh;
   padding: 20px;
   border-right: 1px solid #222;
@@ -591,13 +591,15 @@ body {
   transition:0.3s;
 }
 
-/* DROPDOWN MENU */
+/* =========================================
+   DROPDOWN
+========================================= */
 
 .dropdown-menu{
-  position:absolute;
+  position:fixed;
 
-  top:70px;
-  left:20px;
+  top:78px;
+  left:18px;
 
   width:220px;
 
@@ -605,19 +607,19 @@ body {
 
   border:1px solid #222;
 
-  border-radius:20px;
+  border-radius:18px;
 
   padding:15px;
 
   display:none;
-
   flex-direction:column;
 
-  gap:15px;
+  gap:12px;
 
-  z-index:1001;
+  z-index:9999;
 
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.45);
 }
 
 .dropdown-menu.active{
@@ -625,13 +627,13 @@ body {
 }
 
 .dropdown-menu a{
-  color:white;
-
   text-decoration:none;
+
+  color:white;
 
   background:#1a1a1a;
 
-  padding:15px;
+  padding:14px;
 
   border-radius:12px;
 
@@ -672,7 +674,7 @@ body {
 
   border-top:1px solid #222;
 
-  display:none;
+  display:flex;
 
   justify-content:space-around;
 
