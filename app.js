@@ -166,12 +166,10 @@ const playlists = {
   .getElementById("video-title")
   .innerText = title;
   
-  window.scrollTo({
-  
-  top:0,
-  behavior:"smooth"
-  
-  });
+  document.getElementById("playerSection").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+});
   
   localStorage.setItem(
   "lastPlayedVideo",

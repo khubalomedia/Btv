@@ -655,3 +655,9 @@ body{
   }
 
 }
+
+
+
+.video-card.active{
+  border:2px solid #ff0000;
+}
