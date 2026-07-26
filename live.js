@@ -1,8 +1,3 @@
-/* =====================================
-   BaloTV
-   app.js
-   No YouTube API
-===================================== */
 
 // Replace with YOUR YouTube Channel ID
 const CHANNEL_ID = "UC5reF0zkdOnB3GEpVqNJfHw";
@@ -89,6 +84,23 @@ liveStatus.innerHTML="LIVE";
 offline.style.display="none";
 
 }
+
+
+
+let timer;
+
+document.querySelector(".player-wrapper").addEventListener("click", () => {
+
+    document.body.classList.toggle("show-ui");
+
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+        document.body.classList.remove("show-ui");
+    }, 3000);
+
+});
+
 
 /* ==========================
    AUTO REFRESH
