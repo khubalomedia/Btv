@@ -123,14 +123,11 @@
   ========================== */
   
   .player-section{
-    position:fixed;
-    top:70px;          /* below your top bar */
-    left:0;
-    width:100vw;
-    height:calc(100vh - 70px);
-    padding:0;
+    position:relative;
+    width:100%;
+    padding:20px;
+    height:auto;
     background:#000;
-    overflow:hidden;
 }
   
   .section-title{
@@ -465,20 +462,3 @@
 
 
 
-   .topbar{
-    opacity:0;
-    transition:.3s;
-}
-
-.mobile-nav{
-    transform:translateY(100%);
-    transition:.3s;
-}
-
-body.show-ui .topbar{
-    opacity:1;
-}
-
-body.show-ui .mobile-nav{
-    transform:translateY(0);
-}

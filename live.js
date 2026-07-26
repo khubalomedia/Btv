@@ -87,21 +87,6 @@ offline.style.display="none";
 
 
 
-let timer;
-
-document.querySelector(".player-wrapper").addEventListener("click", () => {
-
-    document.body.classList.toggle("show-ui");
-
-    clearTimeout(timer);
-
-    timer = setTimeout(() => {
-        document.body.classList.remove("show-ui");
-    }, 3000);
-
-});
-
-
 // true = phone vertical stream
 // false = landscape stream
 const VERTICAL_STREAM = true;
