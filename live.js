@@ -102,6 +102,24 @@ document.querySelector(".player-wrapper").addEventListener("click", () => {
 });
 
 
+// true = phone vertical stream
+// false = landscape stream
+const VERTICAL_STREAM = true;
+
+
+function setPlayerMode(){
+
+   const wrapper = document.querySelector(".player-wrapper");
+
+   if(VERTICAL_STREAM){
+       wrapper.classList.add("vertical-mode");
+   }else{
+       wrapper.classList.remove("vertical-mode");
+   }
+
+}
+
+
 /* ==========================
    AUTO REFRESH
 ========================== */
@@ -117,4 +135,6 @@ checkLive();
 ========================== */
 
 checkLive();
+
+setPlayerMode();
 
