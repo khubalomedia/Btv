@@ -3,101 +3,121 @@
 
 <head>
 
-<meta charset="UTF-8" />
+  <meta charset="UTF-8" />
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-<title>BaloTV</title>
+  <title>BaloTV</title>
 
-<link rel="stylesheet" href="styles.css">
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  />
 
-<link rel="manifest" href="manifest.json">
+  <link
+    rel="manifest"
+    href="manifest.json"
+  />
 
-<meta
-  name="theme-color"
-  content="#ff1a1a"
-/>
+  <meta
+    name="theme-color"
+    content="#ff1a1a"
+  />
 
-<link rel="icon" href="images/balotv-logo-1.png">
+  <link rel="icon" href="images/balotv-logo-1.png">
+  
 
 </head>
 
 <body>
 
-<header class="topbar">
+  <!-- TOPBAR -->
 
-  <!-- HAMBURGER MENU -->
+  <header class="topbar">
 
-  <div
-    class="menu-btn"
-    onclick="toggleMenu()"
-  >
+    <!-- MENU BUTTON -->
 
-    <span></span>
-    <span></span>
-    <span></span>
-
-  </div>
-
-  <!-- DROPDOWN MENU -->
-
-  <div
-    class="dropdown-menu"
-    id="dropdownMenu"
-  >
-
-    <a href="index.html">Home</a>
-
-    <a href="about.html">Submit Content</a>
-
-    <a href="blog.html">Blog</a>
-
-  </div>
-
-  <div class="logo">
-
-    <img
-      src="images/balotv-logo.png"
-      alt="BaloTV"
+    <div
+      class="menu-btn"
+      onclick="toggleMenu()"
     >
 
-  </div>
+      <span></span>
+      <span></span>
+      <span></span>
 
-  <div class="top-right">
+    </div>
 
-    <input
-      type="text"
-      placeholder="Search..."
-      id="searchInput"
+    <!-- DROPDOWN -->
+
+    <div
+      class="dropdown-menu"
+      id="dropdownMenu"
     >
 
-  </div>
+      <a href="index.html">
+        Home
+      </a>
 
-</header>
+      <a href="about.html">
+        Submit Content
+      </a>
 
-<div class="layout">
+      <a href="terms.html">
+        Terms
+      </a>
 
-   <!-- MAIN -->
+    </div>
 
-<main class="content">
+    <!-- LOGO -->
 
-<!-- PLAYER -->
+    <div class="logo">
 
-<section
-  class="player-section hidden"
-  id="playerSection"
->
+      <img
+        src="images/balotv-logo.png"
+        alt="BaloTV"
+      >
 
-<iframe
-  id="video-player"
-  src=""
-  allowfullscreen
-  allow="autoplay"
-></iframe>
+    </div>
 
+    <!-- SEARCH -->
+
+    <div class="top-right">
+
+      <input
+        type="text"
+        placeholder="Search..."
+        id="searchInput"
+      />
+
+    </div>
+
+  </header>
+
+  <!-- LAYOUT -->
+
+  <div class="layout">
+
+    <!-- MAIN CONTENT -->
+
+    <main class="content library-page">
+
+      <!-- PLAYER -->
+
+      <section
+        class="player-section hidden"
+        id="playerSection"
+      >
+
+        <iframe
+          id="video-player"
+          src=""
+          allowfullscreen
+          allow="autoplay"
+        ></iframe>
 
         <!-- CONTROLS -->
 
@@ -126,6 +146,19 @@
           </button>
 
         </div>
+
+
+
+        <div class="up-next-player">
+
+          <div class="up-next-header">
+              ▶ Up Next
+          </div>
+      
+          <div id="playerQueue"></div>
+      
+      </div>
+        
 
         <!-- VIDEO INFO -->
 
@@ -157,72 +190,115 @@
 
       </section>
 
-<!-- CONTENT -->
+      <!-- LIBRARY -->
 
-<section class="section category-section" id="section-home">
-  <h2>Home Videos</h2>
-  <div id="row-home" class="video-list"></div>
-</section>
+      <div class="library-page">
 
+        
+        </section>
 
-</main>
+          <!-- ADUCATIONAL -->
 
-</div>
+          <section class="section">
 
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-  <button
-    class="mobile-nav-btn active"
-    onclick="window.location.href='index.html'"
-  >
-    Home
-  </button>
-
-  <button
-    class="mobile-nav-btn"
-    onclick="window.location.href='library.html'"
-  >
-    Library
-  </button>
-
-  <button
-    class="mobile-nav-btn"
-    onclick="window.location.href='live.html'"
-  >
-    Live
-  </button>
-
-</div>
-
-<script>
-
-function toggleMenu(){
-
-  document
-    .getElementById("dropdownMenu")
-    .classList
-    .toggle("active");
-
-}
-
-</script>
-
-
-<script>
-
-  if("serviceWorker" in navigator){
+            <h2>Educational</h2>
   
-    navigator.serviceWorker
-    .register("/service-worker.js");
+            <div
+              id="row-educational"
+              class="video-row"
+            ></div>
   
-  }
+          </section>
 
-</script>
+        <!-- TALK SHOWS -->
 
+        <section class="section">
 
-<script src="app.js"></script>
+          <h2>Talk Shows</h2>
+
+          <div
+            id="row-talk"
+            class="video-row"
+          ></div>
+
+        </section>
+
+        <!-- CARTOONS -->
+
+        <section class="section">
+
+          <h2>Cartoons</h2>
+
+          <div
+            id="row-cartoons"
+            class="video-row"
+          ></div>
+
+        </section>
+
+        <!-- Trailers -->
+
+        <section class="section">
+
+          <h2>Trailers</h2>
+
+          <div
+            id="row-trailer"
+            class="video-row"
+          ></div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- MOBILE NAV -->
+
+  <div class="mobile-nav">
+
+    <button
+      class="mobile-nav-btn active"
+      onclick="window.location.href='index.html'"
+    >
+      Home
+    </button>
+
+    <button
+      class="mobile-nav-btn"
+      onclick="window.location.href='live.html'"
+    >
+      Live
+    </button>
+
+  </div>
+
+  <!-- JS -->
+
+  <script src="app.js"></script>
+
+  <script>
+
+    function toggleMenu() {
+
+      document
+        .getElementById("dropdownMenu")
+        .classList
+        .toggle("active");
+
+    }
+
+    if ("serviceWorker" in navigator) {
+
+      navigator
+        .serviceWorker
+        .register("/service-worker.js");
+
+    }
+
+  </script>
 
 </body>
 
