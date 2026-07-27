@@ -105,6 +105,20 @@ function setPlayerMode(){
 }
 
 
+
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+const wrapper = document.querySelector(".player-wrapper");
+
+fullscreenBtn.addEventListener("click", () => {
+
+    if (!document.fullscreenElement) {
+        wrapper.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+
+});
+
 /* ==========================
    AUTO REFRESH
 ========================== */
