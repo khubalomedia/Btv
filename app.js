@@ -172,7 +172,7 @@ const playlists = {
   });
 
 
-  
+
   
   localStorage.setItem(
   "lastPlayedVideo",
@@ -344,17 +344,41 @@ const playlists = {
   ".video-card"
   );
   
-  cards.forEach(card=>{
-  
-  const text =
-  card.innerText.toLowerCase();
-  
-  card.style.display =
-  text.includes(value)
-  ? "block"
-  : "none";
-  
-  });
+document.getElementById("searchInput").addEventListener("input", function () {
+
+    const value = this.value.toLowerCase();
+
+    const rows = [
+        "educational",
+        "talk",
+        "cartoons",
+        "trailer"
+    ];
+
+    rows.forEach(name => {
+
+        const row = document.getElementById("row-" + name);
+
+        // Section that contains the heading + row
+        const section = row.closest("section");
+
+        let visible = 0;
+
+        row.querySelectorAll(".video-card").forEach(card => {
+
+            const match = card.innerText.toLowerCase().includes(value);
+
+            card.style.display = match ? "" : "none";
+
+            if (match) visible++;
+
+        });
+
+        section.style.display = visible ? "" : "none";
+
+    });
+
+});
   
   }
   );
