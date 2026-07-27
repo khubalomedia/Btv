@@ -233,20 +233,23 @@ const playlists = {
      card.className =
        "video-card";
  
-     card.innerHTML = `
- 
+       card.innerHTML = `
        <img
          class="video-thumb"
          src="https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg"
+         alt="${video.title}"
          loading="lazy"
        >
- 
+     
        <div class="video-card-content">
- 
+     
          <h4>${video.title}</h4>
- 
+     
+         <p class="watch-label">
+           ▶ Watch now
+         </p>
+     
        </div>
- 
      `;
  
      card.onclick = () => {
@@ -270,39 +273,34 @@ const playlists = {
  
  /* PLAY VIDEO */
  
- function playVideo(
-   videoId,
-   title = ""
- ) {
- 
-   playerSection.classList.remove(
-     "hidden"
-   );
- 
-   player.src =
-     `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
- 
-     document
-     .getElementById("video-title")
-     .innerText = title;
- 
-   window.scrollTo({
- 
-     top: 0,
- 
-     behavior: "smooth"
- 
-   });
- 
-   localStorage.setItem(
-     "lastPlayedVideo",
-     JSON.stringify({
-       videoId,
-       title
-     })
-   );
- 
- }
+ function playVideo(videoId, title = "") {
+
+  playerSection.classList.remove("hidden");
+
+  player.src =
+    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
+
+  document
+    .getElementById("video-title")
+    .innerText = title;
+
+  // Show videos from the same category in Up Next
+  updatePlayerQueue();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+  localStorage.setItem(
+    "lastPlayedVideo",
+    JSON.stringify({
+      videoId,
+      title
+    })
+  );
+
+}
  
  /* LOAD LAST PLAYED */
  
@@ -327,28 +325,38 @@ const playlists = {
  /* NEXT VIDEO */
  
  function playNext() {
- 
-   if (
-     currentIndex <
-     currentPlaylist.length - 1
-   ) {
- 
-     currentIndex++;
- 
-     const nextVideo =
-       currentPlaylist[currentIndex];
- 
-     playVideo(
-       nextVideo.videoId,
-       nextVideo.title
-     );
 
-     updatePlayerQueue();
- 
-   }
- 
- }
- 
+  if (
+    currentIndex <
+    currentPlaylist.length - 1
+  ) {
+
+    currentIndex++;
+
+    const nextVideo =
+      currentPlaylist[currentIndex];
+
+    playVideo(
+      nextVideo.videoId,
+      nextVideo.title
+    );
+
+  } else {
+
+    // Restart from the beginning of the same category
+    currentIndex = 0;
+
+    const firstVideo =
+      currentPlaylist[currentIndex];
+
+    playVideo(
+      firstVideo.videoId,
+      firstVideo.title
+    );
+
+  }
+
+}
  /* PREVIOUS VIDEO */
  
  function playPrevious() {
@@ -472,35 +480,37 @@ const playlists = {
 
 
 
-function updatePlayerQueue(){
+function playNext() {
 
-  const queue=document.getElementById("playerQueue");
+  if (
+    currentIndex <
+    currentPlaylist.length - 1
+  ) {
 
-  queue.innerHTML="";
+    currentIndex++;
 
-  currentPlaylist
-  .slice(currentIndex+1,currentIndex+6)
-  .forEach((video,index)=>{
+    const nextVideo =
+      currentPlaylist[currentIndex];
 
-      const item=document.createElement("div");
+    playVideo(
+      nextVideo.videoId,
+      nextVideo.title
+    );
 
-      item.className="queue-item";
+  } else {
 
-      item.textContent=(index+1)+". "+video.title;
+    // Restart from the beginning of the same category
+    currentIndex = 0;
 
-      item.onclick=()=>{
+    const firstVideo =
+      currentPlaylist[currentIndex];
 
-          currentIndex=currentIndex+index+1;
+    playVideo(
+      firstVideo.videoId,
+      firstVideo.title
+    );
 
-          playVideo(video.videoId,video.title);
-
-          updatePlayerQueue();
-
-      };
-
-      queue.appendChild(item);
-
-  });
+  }
 
 }
 

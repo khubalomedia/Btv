@@ -702,3 +702,242 @@ body{
   font-weight:bold;
 
 }
+
+
+
+
+/* =========================================
+   PROFESSIONAL WELCOME BANNER
+========================================= */
+
+.welcome-banner{
+  margin:10px 0 50px;
+
+  padding:50px 40px;
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #171717,
+      #0d0d0d
+    );
+
+  border:1px solid #292929;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.35);
+}
+
+
+.welcome-content{
+  max-width:850px;
+}
+
+
+.welcome-label{
+  display:inline-block;
+
+  margin-bottom:14px;
+
+  color:#ff1a1a;
+
+  font-size:13px;
+
+  font-weight:800;
+
+  letter-spacing:2px;
+}
+
+
+.welcome-banner h1{
+  margin-bottom:16px;
+
+  font-size:clamp(28px,5vw,56px);
+
+  line-height:1.1;
+
+  font-weight:900;
+}
+
+
+.welcome-banner p{
+  max-width:700px;
+
+  color:#a8a8a8;
+
+  font-size:17px;
+
+  line-height:1.7;
+}
+
+
+/* =========================================
+   CATEGORY DESCRIPTION
+========================================= */
+
+.category-description{
+
+  margin-top:-8px;
+
+  margin-bottom:20px;
+
+  color:#8f8f8f;
+
+  font-size:15px;
+
+  line-height:1.6;
+}
+
+
+/* =========================================
+   VIDEO CARD
+========================================= */
+
+.video-card{
+
+  position:relative;
+
+  min-width:340px;
+
+  width:340px;
+
+  flex-shrink:0;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+}
+
+
+.video-card:hover{
+
+  transform:
+    scale(1.03)
+    translateY(-4px);
+
+  z-index:5;
+}
+
+
+.video-card img{
+
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:16/9;
+
+  object-fit:cover;
+
+  border-radius:18px;
+
+  background:#111;
+
+  transition:0.3s;
+}
+
+
+.video-card:hover img{
+
+  box-shadow:
+    0 15px 35px rgba(255,0,0,0.25);
+}
+
+
+/* TITLE IS NOW BELOW THE IMAGE */
+
+.video-card-content{
+
+  position:static;
+
+  padding:12px 4px 4px;
+
+  background:none;
+
+}
+
+
+.video-card-content h4{
+
+  margin:0;
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  line-height:1.45;
+}
+
+
+.watch-label{
+
+  margin-top:7px;
+
+  color:#888;
+
+  font-size:12px;
+
+  font-weight:600;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+  .welcome-banner{
+
+    padding:30px 22px;
+
+    margin-bottom:35px;
+
+    border-radius:18px;
+  }
+
+
+  .welcome-banner h1{
+
+    font-size:30px;
+  }
+
+
+  .welcome-banner p{
+
+    font-size:14px;
+  }
+
+
+  .category-description{
+
+    font-size:13px;
+
+    margin-bottom:15px;
+  }
+
+
+  .video-card{
+
+    min-width:220px;
+
+    width:220px;
+  }
+
+
+  .video-card-content{
+
+    padding:10px 3px;
+  }
+
+
+  .video-card-content h4{
+
+    font-size:13px;
+  }
+
+}
