@@ -1,8 +1,3 @@
-/* =========================================
-   BaloTV
-   API FEEL VERSION
-   NO YOUTUBE API
-========================================= */
 
 const playlists = {
 
@@ -165,11 +160,19 @@ const playlists = {
   document
   .getElementById("video-title")
   .innerText = title;
+
+
+
   
-  document.getElementById("playerSection").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-});
+  const headerHeight = document.querySelector(".topbar").offsetHeight;
+
+  window.scrollTo({
+      top: player.offsetTop - headerHeight - 10,
+      behavior: "smooth"
+  });
+
+
+  
   
   localStorage.setItem(
   "lastPlayedVideo",
