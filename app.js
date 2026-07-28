@@ -184,8 +184,6 @@ const playlists = {
  playerSection.classList.add(
    "hidden"
  );
-
- updatePlayerQueue();
  
  /* LOAD ALL VIDEOS */
  
@@ -279,8 +277,6 @@ const playlists = {
 
   playerSection.classList.remove("hidden");
 
-  document.getElementById("welcomeBanner").style.display = "none";
-
   player.src =
     `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
 
@@ -289,56 +285,12 @@ const playlists = {
     .innerText = title;
 
   // Show videos from the same category in Up Next
-  function updatePlayerQueue(){
+  updatePlayerQueue();
 
-    const queue=document.getElementById("playerQueue");
-
-    queue.innerHTML="";
-
-    currentPlaylist.forEach((video,index)=>{
-
-        if(index===currentIndex) return;
-
-        const card=document.createElement("div");
-
-        card.className="up-next-card";
-
-        card.innerHTML=`
-
-        <img src="https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg">
-
-        <div class="up-next-info">
-
-            <h3>${video.title}</h3>
-
-            <div class="up-next-meta">
-
-                👁 12K views • 📅 12 May 2026 • ⏱ 18:43
-
-            </div>
-
-        </div>
-
-        `;
-
-        card.onclick=()=>{
-
-            currentIndex=index;
-
-            playVideo(video.videoId,video.title);
-
-        };
-
-        queue.appendChild(card);
-
-    });
-
-}
-
-  playerSection.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-});
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
   localStorage.setItem(
     "lastPlayedVideo",
@@ -444,30 +396,59 @@ const playlists = {
    );
  
  /* SEARCH */
+ 
+ document
+   .getElementById("searchInput")
+   .addEventListener(
+     "input",
+     function () {
+ 
+       const value =
+         this.value.toLowerCase();
+ 
+       const cards =
+         document.querySelectorAll(
+           ".video-card"
+         );
+ 
+         document.getElementById("searchInput").addEventListener("input", function () {
 
-document.getElementById("searchInput").addEventListener("input", function () {
-
-  const search = this.value.toLowerCase();
-
-  document.querySelectorAll(".section").forEach(section => {
-
-      let visible = 0;
-
-      section.querySelectorAll(".video-card").forEach(card => {
-
-          const match = card.innerText.toLowerCase().includes(search);
-
-          card.style.display = match ? "block" : "none";
-
-          if (match) visible++;
-
+          const value = this.value.toLowerCase();
+      
+          const rows = [
+              "educational",
+              "talk",
+              "cartoons",
+              "trailer"
+          ];
+      
+          rows.forEach(name => {
+      
+              const row = document.getElementById("row-" + name);
+      
+              // Section that contains the heading + row
+              const section = row.closest("section");
+      
+              let visible = 0;
+      
+              row.querySelectorAll(".video-card").forEach(card => {
+      
+                  const match = card.innerText.toLowerCase().includes(value);
+      
+                  card.style.display = match ? "" : "none";
+      
+                  if (match) visible++;
+      
+              });
+      
+              section.style.display = visible ? "" : "none";
+      
+          });
+      
       });
-
-      section.style.display = visible ? "block" : "none";
-
-  });
-
-});
+ 
+     }
+   );
  
  /* SERVICE WORKER */
  
@@ -533,81 +514,6 @@ function playNext() {
 
 }
 
-
-
-async function getVideoDetails(videoIds){
-
-  const API_KEY="AIzaSyD6o4Zwpt0Qim-6lLdJ4Ti0gUWJbrMwk-Y";
-
-  const url=`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoIds.join(",")}&key=${API_KEY}`;
-
-  const res=await fetch(url);
-
-  const data=await res.json();
-
-  return data.items;
-
-}
-
-
-
-function formatDuration(duration){
-
-  const match=duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-
-  const h=match[1]||0;
-
-  const m=match[2]||0;
-
-  const s=match[3]||0;
-
-  if(h>0)
-      return `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-
-  return `${m}:${String(s).padStart(2,"0")}`;
-
-}
-
-
-
-function formatViews(views){
-
-  return Number(views).toLocaleString()+" views";
-
-}
-
-
-
-
-function formatDate(date){
-
-  return new Date(date).toLocaleDateString("en-GB",{
-
-      day:"numeric",
-
-      month:"short",
-
-      year:"numeric"
-
-  });
-
-}
-
-
-
-<div class="up-next-meta">
-
-👁 ${formatViews(video.statistics.viewCount)}
-
-•
-
-📅 ${formatDate(video.snippet.publishedAt)}
-
-•
-
-⏱ ${formatDuration(video.contentDetails.duration)}
-
-</div>
 
  
  /* START */
