@@ -328,11 +328,6 @@ function updatePlayerQueue(){
 
           <h3>${video.title}</h3>
 
-          <div class="up-next-meta">
-
-              👁 12K views • 📅 12 May 2026 • ⏱ 18:43
-
-          </div>
 
       </div>
 
